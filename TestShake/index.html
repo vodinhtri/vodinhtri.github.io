@@ -50,9 +50,9 @@
   </div>
   <canvas id="loading-canvas" style="position: absolute; width: 100%; height: 100%; visibility: hidden;" width="1334" height="750" oncontextmenu="event.preventDefault()"></canvas>
 
-<script src="src/settings.6f72b.js" charset="utf-8"></script>
+<script src="src/settings.a4d89.js" charset="utf-8"></script>
 
-<script src="main.898b7.js" charset="utf-8"></script>
+<script src="main.b35a2.js" charset="utf-8"></script>
 
 <script type="text/javascript">
 (function () {
@@ -109,16 +109,28 @@
   var loadingDefines = {
     frameTime: 1/60,
     imgs: {
-      mc01: {dir: 'mc.png', obj: new Image(), loaded: false},
+      mc01: {dir: 'mc_01.png', obj: new Image(), loaded: false},
+      mc02: {dir: 'mc_02.png', obj: new Image(), loaded: false},
+      mc03: {dir: 'mc_03.png', obj: new Image(), loaded: false},
+      mc04: {dir: 'mc_04.png', obj: new Image(), loaded: false},
+      mc05: {dir: 'mc_05.png', obj: new Image(), loaded: false},
+      mc06: {dir: 'mc_06.png', obj: new Image(), loaded: false},
+      mc07: {dir: 'mc_07.png', obj: new Image(), loaded: false},
       bg: {dir: 'background.png', obj: new Image(), loaded: false},
       fg: {dir: 'foreground.png', obj: new Image(), loaded: false},
     },
     progress: 0
   };
+  var progressBar = document.querySelector('.progress-bar span');
+  var interval = setInterval(function(){
+    loadingDefines.progress = parseFloat(progressBar.style.width) / 100;
+  }, 1000 / 60);
 
   var cleanUpLoading = function(){
     document.body.removeChild(loadingCanvas);
     window.cancelAnimationFrame(myRequestAnimId);
+    clearInterval(interval);
+    progressBar = null;
     myRequestAnimId = null;
     myOffsetY = null;
     loadingCanvas = null;
@@ -163,7 +175,13 @@
     function animateLoading(){
       var mc = new animation([
         loadingDefines.imgs.mc01.obj,
-      ]);
+        loadingDefines.imgs.mc02.obj,
+        loadingDefines.imgs.mc03.obj,
+        loadingDefines.imgs.mc04.obj,
+        loadingDefines.imgs.mc05.obj,
+        loadingDefines.imgs.mc06.obj,
+        loadingDefines.imgs.mc07.obj,
+      ], 8);
       var bg = new animation([
         loadingDefines.imgs.bg.obj,
       ]);
@@ -175,7 +193,7 @@
         ctx.drawImage(img, 0, 0, img.width * loadingDefines.progress, img.height, this.x, this.y + myOffsetY, img.width * this.scale * loadingDefines.progress, img.height * this.scale);
       }.bind(fg);
 
-      mc.setPos(canvas.width / 2 - 343, canvas.height / 2 - 130);
+      mc.setPos(canvas.width / 2 - 343, canvas.height / 2 - 63);
       bg.setPos(canvas.width / 2 - 310, canvas.height / 2 - 60);
       fg.setPos(canvas.width / 2 - 310, canvas.height / 2 - 60);
 
