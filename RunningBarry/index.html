@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Cocos Creator | RunningBarry</title>
+  <title>Running Momo</title>
 
   <!--http://www.html5rocks.com/en/mobile/mobifying/-->
   <meta name="viewport"
@@ -27,8 +27,8 @@
   <meta name="360-fullscreen" content="true"/>
   
   <!-- force screen orientation on some browser -->
-  <meta name="screen-orientation" content="landscape"/>
-  <meta name="x5-orientation" content="landscape">
+  <meta name="screen-orientation" content=""/>
+  <meta name="x5-orientation" content="">
 
   <!--fix fireball/issues/3568 -->
   <!--<meta name="browsermode" content="application">-->
@@ -37,20 +37,22 @@
   <!--<link rel="apple-touch-icon" href=".png" />-->
   <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
 
-  <link rel="stylesheet" type="text/css" href="style-mobile.6e9cd.css"/>
-  <link rel="icon" href="favicon.8de18.ico"/>
+  <link rel="stylesheet" type="text/css" href="style-mobile.81780.css"/>
+  <link rel="icon" href="icon.58d99.ico"/>
 </head>
 <body>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <div id="splash">
-    <div class="progress-bar stripes">
+    <div class="progress-bar stripes" style="visibility: hidden;">
       <span style="width: 0%"></span>
+      <p style="position: relative">Loading...</p>
     </div>
   </div>
+  <canvas id="loading-canvas" style="position: absolute; width: 100%; height: 100%; visibility: hidden;" width="1334" height="750" oncontextmenu="event.preventDefault()"></canvas>
 
-<script src="src/settings.52f08.js" charset="utf-8"></script>
+<script src="src/settings.9a561.js" charset="utf-8"></script>
 
-<script src="main.710c4.js" charset="utf-8"></script>
+<script src="main.31b9d.js" charset="utf-8"></script>
 
 <script type="text/javascript">
 (function () {
@@ -83,8 +85,175 @@
       else {
         window.boot();
       }
+
+      cc.director.once(cc.Director.EVENT_AFTER_SCENE_LAUNCH, cleanUpLoading);
+      cc.loader.onProgress = function (completedCount, totalCount, item) {
+        if(loadingDefines){
+          loadingDefines.progress = completedCount / totalCount;
+        }
+      };
     });
 })();
+</script>
+<script id="loading-anim-script">
+  var myOffsetY = 0;
+  window.onload = function(){
+    loadingCanvas.height = loadingCanvas.width * (window.innerHeight / window.innerWidth);
+    loadingCanvas.style.visibility = 'visible';
+    myOffsetY = (loadingCanvas.height - 750) / 2;
+  };
+
+  var myRequestAnimId;
+  var loadingAnimScript = document.getElementById('loading-anim-script');
+  var loadingCanvas = document.getElementById('loading-canvas');
+  var loadingDefines = {
+    frameTime: 1/60,
+    imgs: {
+      mc01: {dir: 'mc_01.png', obj: new Image(), loaded: false},
+      mc02: {dir: 'mc_02.png', obj: new Image(), loaded: false},
+      mc03: {dir: 'mc_03.png', obj: new Image(), loaded: false},
+      mc04: {dir: 'mc_04.png', obj: new Image(), loaded: false},
+      mc05: {dir: 'mc_05.png', obj: new Image(), loaded: false},
+      mc06: {dir: 'mc_06.png', obj: new Image(), loaded: false},
+      mc07: {dir: 'mc_07.png', obj: new Image(), loaded: false},
+      bg: {dir: 'background.png', obj: new Image(), loaded: false},
+      fg: {dir: 'foreground.png', obj: new Image(), loaded: false},
+    },
+    progress: 0
+  };
+  var progressBar = document.querySelector('.progress-bar span');
+  var interval = setInterval(function(){
+    loadingDefines.progress = parseFloat(progressBar.style.width) / 100;
+  }, 1000 / 60);
+
+  var cleanUpLoading = function(){
+    document.body.removeChild(loadingCanvas);
+    window.cancelAnimationFrame(myRequestAnimId);
+    clearInterval(interval);
+    progressBar = null;
+    myRequestAnimId = null;
+    myOffsetY = null;
+    loadingCanvas = null;
+    loadingDefines = null;
+    cleanUpLoading = null;
+    document.body.removeChild(loadingAnimScript);
+    loadingAnimScript = null;
+  };
+  
+  (function(){
+    var canvas = loadingCanvas;
+    var ctx = canvas.getContext('2d');
+    var start = Date.now();
+
+    function loadImage(onComplete){
+      var total = 0;
+      var count = 0;
+      var successCount = 0;
+      for (var key in loadingDefines.imgs) {
+        var image = loadingDefines.imgs[key];
+        if(!image.loaded){
+          total++;
+          image.obj.src = 'imgs/' + image.dir;
+          image.obj.onload = function(){
+            count++;
+            successCount++;
+            if(count == total){
+              onComplete(successCount == total);              
+            }
+          };
+
+          image.obj.onerror = function(){
+            count++;
+            if(count == total){
+              onComplete(successCount == total);              
+            }
+          };
+        }
+      }
+    }
+
+    function animateLoading(){
+      var mc = new animation([
+        loadingDefines.imgs.mc01.obj,
+        loadingDefines.imgs.mc02.obj,
+        loadingDefines.imgs.mc03.obj,
+        loadingDefines.imgs.mc04.obj,
+        loadingDefines.imgs.mc05.obj,
+        loadingDefines.imgs.mc06.obj,
+        loadingDefines.imgs.mc07.obj,
+      ], 8);
+      var bg = new animation([
+        loadingDefines.imgs.bg.obj,
+      ]);
+      var fg = new animation([
+        loadingDefines.imgs.fg.obj,
+      ]);
+      fg.render = function(){
+        var img = this.imgs[this.frameIndex];
+        ctx.drawImage(img, 0, 0, img.width * loadingDefines.progress, img.height, this.x, this.y + myOffsetY, img.width * this.scale * loadingDefines.progress, img.height * this.scale);
+      }.bind(fg);
+
+      mc.setPos(canvas.width / 2 - 343, canvas.height / 2 - 63);
+      bg.setPos(canvas.width / 2 - 310, canvas.height / 2 - 60);
+      fg.setPos(canvas.width / 2 - 310, canvas.height / 2 - 60);
+
+      function loop() {
+        var current = Date.now();
+        var dt = (current - start) / 1000;
+        start = current;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        mc.setPos(canvas.width / 2 - 343 + 610 * loadingDefines.progress, mc.y);
+
+        bg.update(dt);
+        fg.update(dt);
+        mc.update(dt);
+
+        myRequestAnimId = window.requestAnimationFrame(loop);
+      }
+
+      myRequestAnimId = window.requestAnimationFrame(loop);
+    }
+
+    function animation(imgs, eachFrameCount = 1, scale = 1){
+      this.imgs = imgs;
+      this.eachFrameCount = eachFrameCount;
+      this.scale = scale;
+      this.x = 0;
+      this.y = 0;
+      this.rotate = 0;
+      this.frameIndex = 0;
+      this.time = 0;
+      this.timePerFrame = loadingDefines.frameTime * this.eachFrameCount;
+
+      this.setPos = function(x, y){
+        this.x = x;
+        this.y = y;
+      };
+
+      this.update = function(dt){
+        this.time += dt;
+        if(this.time >= this.timePerFrame){
+          var step = Math.floor(this.time / this.timePerFrame);
+          this.time %= this.timePerFrame;
+          this.frameIndex = (this.frameIndex + step) % this.imgs.length;
+        }
+        this.render();
+      };
+
+      this.render = function(){
+        var img = this.imgs[this.frameIndex];
+        ctx.drawImage(img, 0, 0, img.width, img.height, this.x, this.y + myOffsetY, img.width * this.scale, img.height * this.scale);
+      };
+    }
+
+    loadImage(function(isLoaded){
+      if(isLoaded){
+        animateLoading();
+      }
+    });
+  })();
 </script>
 </body>
 </html>
