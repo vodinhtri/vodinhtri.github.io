@@ -38,7 +38,7 @@
   <!--<link rel="apple-touch-icon" href=".png" />-->
   <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
 
-  <link rel="stylesheet" type="text/css" href="style-mobile.81780.css" />
+  <link rel="stylesheet" type="text/css" href="style-mobile.86a13.css" />
   <link rel="icon" href="icon.58d99.ico" />
   <script>
     window.DEBUG_API = true;
@@ -56,6 +56,7 @@
       <p style="position: relative">Loading...</p>
     </div>
   </div>
+  <img src="./bg.a32a4.jpg" id="bgImg"></img>
   <canvas id="loading-canvas" style="position: absolute; width: 100%; height: 100%; visibility: hidden;" width="1334"
     height="750" oncontextmenu="event.preventDefault()"></canvas>
 
@@ -118,6 +119,10 @@
     window.onload = function ()
     {
       loadingCanvas.height = loadingCanvas.width * (window.innerHeight / window.innerWidth);
+      if(window.innerHeight > window.innerWidth)
+      {
+        loadingCanvas.style.transform = 'rotate(90deg)';
+      }
       loadingCanvas.style.visibility = 'visible';
       myOffsetY = (loadingCanvas.height - 750) / 2;
     };
@@ -125,6 +130,7 @@
     var myRequestAnimId;
     var loadingAnimScript = document.getElementById('loading-anim-script');
     var loadingCanvas = document.getElementById('loading-canvas');
+    var bgImg = document.getElementById('bgImg')
     var loadingDefines = {
       frameTime: 1 / 60,
       imgs: {
@@ -158,6 +164,7 @@
       loadingDefines = null;
       cleanUpLoading = null;
       document.body.removeChild(loadingAnimScript);
+      document.body.removeChild(bgImg);
       loadingAnimScript = null;
     };
 
