@@ -60,157 +60,186 @@
   <canvas id="loading-canvas" style="position: absolute; width: 100%; height: 100%; visibility: hidden;" width="1334"
     height="750" oncontextmenu="event.preventDefault()"></canvas>
 
-  <script src="src/settings.c0334.js" charset="utf-8"></script>
+  <script src="src/settings.6ab2e.js" charset="utf-8"></script>
 
-  <script src="main.8db44.js" charset="utf-8"></script>
+  <script src="main.adec9.js" charset="utf-8"></script>
 
   <script type="text/javascript">
-    (function ()
-    {
+    ( function () {
       // open web debugger console
-      if (typeof VConsole !== 'undefined')
-      {
+      if ( typeof VConsole !== 'undefined' ) {
         window.vConsole = new VConsole();
       }
 
       var debug = window._CCSettings.debug;
-      var splash = document.getElementById('splash');
+      var splash = document.getElementById( 'splash' );
       splash.style.display = 'block';
 
-      function loadScript(moduleName, cb)
-      {
-        function scriptLoaded()
-        {
-          document.body.removeChild(domScript);
-          domScript.removeEventListener('load', scriptLoaded, false);
+      function loadScript( moduleName, cb ) {
+        function scriptLoaded() {
+          document.body.removeChild( domScript );
+          domScript.removeEventListener( 'load', scriptLoaded, false );
           cb && cb();
         };
-        var domScript = document.createElement('script');
+        var domScript = document.createElement( 'script' );
         domScript.async = true;
         domScript.src = moduleName;
-        domScript.addEventListener('load', scriptLoaded, false);
-        document.body.appendChild(domScript);
+        domScript.addEventListener( 'load', scriptLoaded, false );
+        document.body.appendChild( domScript );
       }
 
-      loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.0de5e.js', function ()
-      {
-        if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON)
-        {
-          loadScript(debug ? 'physics.js' : 'physics-min.b5fcb.js', window.boot);
+      loadScript( debug ? 'cocos2d-js.js' : 'cocos2d-js-min.0de5e.js', function () {
+
+        const isIOS14Device = cc.sys.os === cc.sys.OS_IOS && cc.sys.isBrowser && cc.sys.isMobile && /iPhone OS 14/
+          .test( window.navigator.userAgent );
+        if ( isIOS14Device ) {
+          cc.MeshBuffer.prototype.checkAndSwitchBuffer = function ( vertexCount ) {
+            if ( this.vertexOffset + vertexCount > 65535 ) {
+              this.uploadData();
+              this._batcher._flush();
+            }
+          };
+          cc.MeshBuffer.prototype.forwardIndiceStartToOffset = function () {
+            this.uploadData();
+            this.switchBuffer();
+          }
         }
-        else
-        {
+
+        if ( CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON ) {
+          loadScript( debug ? 'physics.js' : 'physics-min.b5fcb.js', window.boot );
+        } else {
           window.boot();
         }
 
-        cc.director.once(cc.Director.EVENT_AFTER_SCENE_LAUNCH, cleanUpLoading);
-        cc.loader.onProgress = function (completedCount, totalCount, item)
-        {
-          if (loadingDefines)
-          {
+        cc.director.once( cc.Director.EVENT_AFTER_SCENE_LAUNCH, cleanUpLoading );
+        cc.loader.onProgress = function ( completedCount, totalCount, item ) {
+          if ( loadingDefines ) {
             loadingDefines.progress = completedCount / totalCount;
           }
         };
-      });
-    })();
+      } );
+    } )();
   </script>
   <script id="loading-anim-script">
     var myOffsetY = 0;
-    window.onload = function ()
-    {
-      loadingCanvas.height = loadingCanvas.width * (window.innerHeight / window.innerWidth);
-      if(window.innerHeight > window.innerWidth)
-      {
+    window.onload = function () {
+      loadingCanvas.height = loadingCanvas.width * ( window.innerHeight / window.innerWidth );
+      if ( window.innerHeight > window.innerWidth ) {
         loadingCanvas.style.transform = 'rotate(90deg)';
       }
       loadingCanvas.style.visibility = 'visible';
-      myOffsetY = (loadingCanvas.height - 750) / 2;
+      myOffsetY = ( loadingCanvas.height - 750 ) / 2;
     };
 
     var myRequestAnimId;
-    var loadingAnimScript = document.getElementById('loading-anim-script');
-    var loadingCanvas = document.getElementById('loading-canvas');
-    var bgImg = document.getElementById('bgImg')
+    var loadingAnimScript = document.getElementById( 'loading-anim-script' );
+    var loadingCanvas = document.getElementById( 'loading-canvas' );
+    var bgImg = document.getElementById( 'bgImg' )
     var loadingDefines = {
       frameTime: 1 / 60,
       imgs: {
-        mc01: { dir: 'mc_01.png', obj: new Image(), loaded: false },
-        mc02: { dir: 'mc_02.png', obj: new Image(), loaded: false },
-        mc03: { dir: 'mc_03.png', obj: new Image(), loaded: false },
-        mc04: { dir: 'mc_04.png', obj: new Image(), loaded: false },
-        mc05: { dir: 'mc_05.png', obj: new Image(), loaded: false },
-        mc06: { dir: 'mc_06.png', obj: new Image(), loaded: false },
-        mc07: { dir: 'mc_07.png', obj: new Image(), loaded: false },
-        bg: { dir: 'background.png', obj: new Image(), loaded: false },
-        fg: { dir: 'foreground.png', obj: new Image(), loaded: false },
+        mc01: {
+          dir: 'mc_01.png',
+          obj: new Image(),
+          loaded: false
+        },
+        mc02: {
+          dir: 'mc_02.png',
+          obj: new Image(),
+          loaded: false
+        },
+        mc03: {
+          dir: 'mc_03.png',
+          obj: new Image(),
+          loaded: false
+        },
+        mc04: {
+          dir: 'mc_04.png',
+          obj: new Image(),
+          loaded: false
+        },
+        mc05: {
+          dir: 'mc_05.png',
+          obj: new Image(),
+          loaded: false
+        },
+        mc06: {
+          dir: 'mc_06.png',
+          obj: new Image(),
+          loaded: false
+        },
+        mc07: {
+          dir: 'mc_07.png',
+          obj: new Image(),
+          loaded: false
+        },
+        bg: {
+          dir: 'background.png',
+          obj: new Image(),
+          loaded: false
+        },
+        fg: {
+          dir: 'foreground.png',
+          obj: new Image(),
+          loaded: false
+        },
       },
       progress: 0
     };
-    var progressBar = document.querySelector('.progress-bar span');
-    var interval = setInterval(function ()
-    {
-      loadingDefines.progress = parseFloat(progressBar.style.width) / 100;
-    }, 1000 / 60);
+    var progressBar = document.querySelector( '.progress-bar span' );
+    var interval = setInterval( function () {
+      loadingDefines.progress = parseFloat( progressBar.style.width ) / 100;
+    }, 1000 / 60 );
 
-    var cleanUpLoading = function ()
-    {
-      document.body.removeChild(loadingCanvas);
-      window.cancelAnimationFrame(myRequestAnimId);
-      clearInterval(interval);
+    var cleanUpLoading = function () {
+      document.body.removeChild( loadingCanvas );
+      window.cancelAnimationFrame( myRequestAnimId );
+      clearInterval( interval );
       progressBar = null;
       myRequestAnimId = null;
       myOffsetY = null;
       loadingCanvas = null;
       loadingDefines = null;
       cleanUpLoading = null;
-      document.body.removeChild(loadingAnimScript);
-      document.body.removeChild(bgImg);
+      document.body.removeChild( loadingAnimScript );
+      document.body.removeChild( bgImg );
       loadingAnimScript = null;
     };
 
-    (function ()
-    {
+    ( function () {
       var canvas = loadingCanvas;
-      var ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext( '2d' );
       var start = Date.now();
 
-      function loadImage(onComplete)
-      {
+      function loadImage( onComplete ) {
         var total = 0;
         var count = 0;
         var successCount = 0;
-        for (var key in loadingDefines.imgs)
-        {
-          var image = loadingDefines.imgs[key];
-          if (!image.loaded)
-          {
+        for ( var key in loadingDefines.imgs ) {
+          var image = loadingDefines.imgs[ key ];
+          if ( !image.loaded ) {
             total++;
             image.obj.src = 'imgs/' + image.dir;
-            image.obj.onload = function ()
-            {
+            image.obj.onload = function () {
               count++;
               successCount++;
-              if (count == total)
-              {
-                onComplete(successCount == total);
+              if ( count == total ) {
+                onComplete( successCount == total );
               }
             };
 
-            image.obj.onerror = function ()
-            {
+            image.obj.onerror = function () {
               count++;
-              if (count == total)
-              {
-                onComplete(successCount == total);
+              if ( count == total ) {
+                onComplete( successCount == total );
               }
             };
           }
         }
       }
 
-      function animateLoading()
-      {
-        var mc = new animation([
+      function animateLoading() {
+        var mc = new animation( [
           loadingDefines.imgs.mc01.obj,
           loadingDefines.imgs.mc02.obj,
           loadingDefines.imgs.mc03.obj,
@@ -218,45 +247,43 @@
           loadingDefines.imgs.mc05.obj,
           loadingDefines.imgs.mc06.obj,
           loadingDefines.imgs.mc07.obj,
-        ], 8);
-        var bg = new animation([
+        ], 8 );
+        var bg = new animation( [
           loadingDefines.imgs.bg.obj,
-        ]);
-        var fg = new animation([
+        ] );
+        var fg = new animation( [
           loadingDefines.imgs.fg.obj,
-        ]);
-        fg.render = function ()
-        {
-          var img = this.imgs[this.frameIndex];
-          ctx.drawImage(img, 0, 0, img.width * loadingDefines.progress, img.height, this.x, this.y + myOffsetY, img.width * this.scale * loadingDefines.progress, img.height * this.scale);
-        }.bind(fg);
+        ] );
+        fg.render = function () {
+          var img = this.imgs[ this.frameIndex ];
+          ctx.drawImage( img, 0, 0, img.width * loadingDefines.progress, img.height, this.x, this.y + myOffsetY, img
+            .width * this.scale * loadingDefines.progress, img.height * this.scale );
+        }.bind( fg );
 
-        mc.setPos(canvas.width / 2 - 514.5, canvas.height / 2 - 63);
-        bg.setPos(canvas.width / 2 - 465, canvas.height / 2 - 60);
-        fg.setPos(canvas.width / 2 - 465, canvas.height / 2 - 60);
+        mc.setPos( canvas.width / 2 - 514.5, canvas.height / 2 - 63 );
+        bg.setPos( canvas.width / 2 - 465, canvas.height / 2 - 60 );
+        fg.setPos( canvas.width / 2 - 465, canvas.height / 2 - 60 );
 
-        function loop()
-        {
+        function loop() {
           var current = Date.now();
-          var dt = (current - start) / 1000;
+          var dt = ( current - start ) / 1000;
           start = current;
 
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.clearRect( 0, 0, canvas.width, canvas.height );
 
-          mc.setPos(canvas.width / 2 - 514.5 + 915 * loadingDefines.progress, mc.y);
+          mc.setPos( canvas.width / 2 - 514.5 + 915 * loadingDefines.progress, mc.y );
 
-          bg.update(dt);
-          fg.update(dt);
-          mc.update(dt);
+          bg.update( dt );
+          fg.update( dt );
+          mc.update( dt );
 
-          myRequestAnimId = window.requestAnimationFrame(loop);
+          myRequestAnimId = window.requestAnimationFrame( loop );
         }
 
-        myRequestAnimId = window.requestAnimationFrame(loop);
+        myRequestAnimId = window.requestAnimationFrame( loop );
       }
 
-      function animation(imgs, eachFrameCount = 1, scale = 1.5)
-      {
+      function animation( imgs, eachFrameCount = 1, scale = 1.5 ) {
         this.imgs = imgs;
         this.eachFrameCount = eachFrameCount;
         this.scale = scale;
@@ -267,39 +294,34 @@
         this.time = 0;
         this.timePerFrame = loadingDefines.frameTime * this.eachFrameCount;
 
-        this.setPos = function (x, y)
-        {
+        this.setPos = function ( x, y ) {
           this.x = x;
           this.y = y;
         };
 
-        this.update = function (dt)
-        {
+        this.update = function ( dt ) {
           this.time += dt;
-          if (this.time >= this.timePerFrame)
-          {
-            var step = Math.floor(this.time / this.timePerFrame);
+          if ( this.time >= this.timePerFrame ) {
+            var step = Math.floor( this.time / this.timePerFrame );
             this.time %= this.timePerFrame;
-            this.frameIndex = (this.frameIndex + step) % this.imgs.length;
+            this.frameIndex = ( this.frameIndex + step ) % this.imgs.length;
           }
           this.render();
         };
 
-        this.render = function ()
-        {
-          var img = this.imgs[this.frameIndex];
-          ctx.drawImage(img, 0, 0, img.width, img.height, this.x, this.y + myOffsetY, img.width * this.scale, img.height * this.scale);
+        this.render = function () {
+          var img = this.imgs[ this.frameIndex ];
+          ctx.drawImage( img, 0, 0, img.width, img.height, this.x, this.y + myOffsetY, img.width * this.scale, img
+            .height * this.scale );
         };
       }
 
-      loadImage(function (isLoaded)
-      {
-        if (isLoaded)
-        {
+      loadImage( function ( isLoaded ) {
+        if ( isLoaded ) {
           animateLoading();
         }
-      });
-    })();
+      } );
+    } )();
   </script>
 </body>
 
