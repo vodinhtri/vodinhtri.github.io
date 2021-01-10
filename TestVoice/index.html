@@ -32,20 +32,25 @@
     <script type="text/javascript">
         window.onload = function ()
         {
-            function requestDeviceOrientation()
+
+            alert("request")
+            setTimeout(() =>
             {
-                alert("request")
-                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function')
+                onClick()
+            }, 5000);
+            function onClick()
+            {
+                // feature detect
+                if (typeof DeviceMotionEvent.requestPermission === 'function')
                 {
-                    alert("request 11111")
-                    DeviceOrientationEvent.requestPermission()
-                    .then(permissionState =>
-                    {
-                        alert(permissionState)
-                        if (permissionState === 'granted')
+                    alert("request123123")
+                    DeviceMotionEvent.requestPermission()
+                        .then(permissionState =>
                         {
-                                alert("request 22222222")
-                                //create a new instance of shake.js.
+                            alert(permissionState)
+                            if (permissionState === 'granted')
+                            {
+                                window.addEventListener('devicemotion', () => { });
                                 var myShakeEvent = new Shake({
                                     threshold: 15
                                 });
@@ -61,10 +66,9 @@
                 } else
                 {
                     // handle regular non iOS 13+ devices
-                    console.log("not iOS");
                 }
             }
-            requestDeviceOrientation()
+            //create a new instance of shake.js.
 
 
             //shake event callback
