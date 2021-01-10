@@ -32,52 +32,44 @@
     <script type="text/javascript">
         window.onload = function ()
         {
-            if (typeof DeviceOrientationEvent['requestPermission'] === 'function')
+            function requestDeviceOrientation()
             {
-                DeviceOrientationEvent['requestPermission']()
-                    .then(permissionState =>
-                    {
-                        if (permissionState === 'granted')
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function')
+                {
+                    DeviceOrientationEvent.requestPermission()
+                        .then(permissionState =>
                         {
-                            var myShakeEvent = new Shake({
-                                threshold: 15
-                            });
-
-                            // start listening to device motion
-                            myShakeEvent.start();
-
-                            // register a shake event
-                            window.addEventListener('shake', shakeEventDidOccur, false);
-
-                            //shake event callback
-                            function shakeEventDidOccur()
+                            if (permissionState === 'granted')
                             {
+                                //create a new instance of shake.js.
+                                var myShakeEvent = new Shake({
+                                    threshold: 15
+                                });
 
-                                //put your own code here etc.
-                                alert('Shake!');
+                                // start listening to device motion
+                                myShakeEvent.start();
+
+                                // register a shake event
+                                window.addEventListener('shake', shakeEventDidOccur, false);
                             }
-                        }
-                    })
-                    .catch(console.error);
-            } else
-            {
-                // if (this.globals.iphone)
-                // {
-                //     window.addEventListener('deviceorientation', (event) =>
-                //     {
-                //         this.currentCompass$.next(event['webkitCompassHeading']);
-                //     });
-                // } else
-                // {
-                //     window.addEventListener('deviceorientationabsolute', (event) =>
-                //     {
-                //         this.currentCompass$.next(360 - Math.round(event['alpha']));
-                //     }, true);
-                // }
+                        })
+                        .catch(console.error);
+                } else
+                {
+                    // handle regular non iOS 13+ devices
+                    console.log("not iOS");
+                }
             }
+            requestDeviceOrientation()
 
-            //create a new instance of shake.js.
 
+            //shake event callback
+            function shakeEventDidOccur()
+            {
+
+                //put your own code here etc.
+                alert('Shake!');
+            }
         };
     </script>
 </body>
