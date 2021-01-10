@@ -34,13 +34,17 @@
         {
             function requestDeviceOrientation()
             {
+                alert("request")
                 if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function')
                 {
+                    alert("request 11111")
                     DeviceOrientationEvent.requestPermission()
-                        .then(permissionState =>
+                    .then(permissionState =>
+                    {
+                        alert(permissionState)
+                        if (permissionState === 'granted')
                         {
-                            if (permissionState === 'granted')
-                            {
+                                alert("request 22222222")
                                 //create a new instance of shake.js.
                                 var myShakeEvent = new Shake({
                                     threshold: 15
