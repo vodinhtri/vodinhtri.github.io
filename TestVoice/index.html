@@ -27,6 +27,7 @@
     <p>Shake your iPhone/iPad to see a custom action.</p>
     <p>Works on iOS +4.2.1, Android 4.0.3 (default browser), Opera Mobile (Android), BlackBerry PlayBook 2.0</p>
     <button onclick="onClick()">Test Device Orientation</button>
+    <div id="result"></div>
 
     <!-- <p><a href="http://dev.w3.org/geo/api/spec-source-orientation">W3C DeviceOrientation Event Specification</a></p> -->
 
@@ -54,6 +55,8 @@
                     .then(permissionState =>
                     {
                         alert(permissionState)
+
+                        setResult(permissionState)
                         if (permissionState === 'granted')
                         {
                             window.addEventListener('devicemotion', () => { });
@@ -83,7 +86,12 @@
             } else
             {
                 // handle regular non iOS 13+ devices
+                setResult('DeviceOrientationEvent not detected')
             }
+        }
+        function setResult(result)
+        {
+            document.getElementById('result').innerHTML = 'RESULT: ' + result;
         }
     </script>
 </body>
