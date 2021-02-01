@@ -58,7 +58,7 @@
                             setResult(permissionState)
                             if (permissionState === 'granted')
                             {
-                                window.localStorage.getItem("deviceMotionPermission", "already granted")
+                                window.localStorage.setItem("deviceMotionPermission", "already granted")
                                 setEvent();
                             }
                         })
