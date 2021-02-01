@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Trâu Vàng Đón Tết</title>
+
+  <!--http://www.html5rocks.com/en/mobile/mobifying/-->
+  <meta name="viewport"
+        content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
+
+  <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- force webkit on 360 -->
+  <meta name="renderer" content="webkit"/>
+  <meta name="force-rendering" content="webkit"/>
+  <!-- force edge on IE -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <!-- force full screen on some browser -->
+  <meta name="full-screen" content="yes"/>
+  <meta name="x5-fullscreen" content="true"/>
+  <meta name="360-fullscreen" content="true"/>
+  
+  <!-- force screen orientation on some browser -->
+  <meta name="screen-orientation" content=""/>
+  <meta name="x5-orientation" content="">
+
+  <!--fix fireball/issues/3568 -->
+  <!--<meta name="browsermode" content="application">-->
+  <meta name="x5-page-mode" content="app">
+
+  <!--<link rel="apple-touch-icon" href=".png" />-->
+  <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
+
+  <link rel="stylesheet" type="text/css" href="style-mobile.c8911.css"/>
+  <link rel="icon" href="icon.b636a.ico"/>
+</head>
+<body>
+  <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+  <div id="splash">
+    <div class="progress-bar stripes">
+      <span style="width: 0%"></span>
+      <p style="position: relative; color: #CC2732; font-weight: bolder;">Đang tải...</p>
+    </div>
+  </div>
+  <canvas id="loading-canvas" style="position: absolute; width: 100%; height: 100%; visibility: hidden;" width="750" height="1334" oncontextmenu="event.preventDefault()"></canvas>
+
+<script src="src/settings.3d218.js" charset="utf-8"></script>
+
+<script src="main.99c3f.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+(function () {
+    // open web debugger console
+    if (typeof VConsole !== 'undefined') {
+        window.vConsole = new VConsole();
+    }
+
+    var debug = window._CCSettings.debug;
+    var splash = document.getElementById('splash');
+    splash.style.display = 'block';
+
+    function loadScript (moduleName, cb) {
+      function scriptLoaded () {
+          document.body.removeChild(domScript);
+          domScript.removeEventListener('load', scriptLoaded, false);
+          cb && cb();
+      };
+      var domScript = document.createElement('script');
+      domScript.async = true;
+      domScript.src = moduleName;
+      domScript.addEventListener('load', scriptLoaded, false);
+      document.body.appendChild(domScript);
+    }
+
+    loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.70fa9.js', function () {
+      if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+        loadScript(debug ? 'physics.js' : 'physics-min.js', window.boot);
+      }
+      else {
+        window.boot();
+      }
+
+      cc.director.once(cc.Director.EVENT_AFTER_SCENE_LAUNCH, cleanUpLoading);
+      cc.loader.onProgress = function (completedCount, totalCount, item) {
+        if(loadingDefines){
+          loadingDefines.progress = completedCount / totalCount;
+        }
+      };
+    });
+})();
+</script>
+<script id="loading-anim-script">
+  var myScreenOffset = 0;
+  var myIsPortrait = true;
+  window.onload = function(){
+    var shorterEdge = 1334 * (Math.min(window.innerWidth, window.innerHeight) / Math.max(window.innerWidth, window.innerHeight));
+    myIsPortrait = window.innerWidth / window.innerHeight < 1;
+    if(myIsPortrait){
+      loadingCanvas.width = shorterEdge;
+    }
+    else{
+      loadingCanvas.height = shorterEdge;
+    }
+    myScreenOffset = (shorterEdge - 750) / 2;
+    loadingCanvas.style.visibility = 'visible';
+  };
+
+  var myRequestAnimId;
+  var loadingAnimScript = document.getElementById('loading-anim-script');
+  var loadingCanvas = document.getElementById('loading-canvas');
+  var loadingDefines = {
+    frameTime: 1/60,
+    imgs: {
+      bg01: {dir: 'Loading_0.png', obj: new Image(), loaded: false},
+      bg02: {dir: 'Loading_1.png', obj: new Image(), loaded: false},
+      bg03: {dir: 'Loading_2.png', obj: new Image(), loaded: false},
+      bg04: {dir: 'Loading_3.png', obj: new Image(), loaded: false},
+      bg05: {dir: 'Loading_4.png', obj: new Image(), loaded: false},
+      bg06: {dir: 'Loading_5.png', obj: new Image(), loaded: false},
+      tagline: {dir: 'Tagline_Loading.png', obj: new Image(), loaded: false},
+      logo: {dir: 'viettelpay_logo_red.png', obj: new Image(), loaded: false},
+      icon01: {dir: 'Untitled_0.png', obj: new Image(), loaded: false},
+      icon02: {dir: 'Untitled_1.png', obj: new Image(), loaded: false},
+      icon03: {dir: 'Untitled_2.png', obj: new Image(), loaded: false},
+      icon04: {dir: 'Untitled_3.png', obj: new Image(), loaded: false},
+      icon05: {dir: 'Untitled_4.png', obj: new Image(), loaded: false},
+      icon06: {dir: 'Untitled_5.png', obj: new Image(), loaded: false},
+    },
+    progress: 0
+  };
+
+  var cleanUpLoading = function(){
+    document.body.removeChild(loadingCanvas);
+    window.cancelAnimationFrame(myRequestAnimId);
+    myRequestAnimId = null;
+    myScreenOffset = null;
+    loadingCanvas = null;
+    loadingDefines = null;
+    cleanUpLoading = null;
+    document.body.removeChild(loadingAnimScript);
+    loadingAnimScript = null;
+  };
+  
+  (function(){
+    var canvas = loadingCanvas;
+    var ctx = canvas.getContext('2d');
+    var start = Date.now();
+
+    function loadImage(onComplete){
+      var total = 0;
+      var count = 0;
+      var successCount = 0;
+      for (var key in loadingDefines.imgs) {
+        var image = loadingDefines.imgs[key];
+        if(!image.loaded){
+          total++;
+          image.obj.src = 'imgs/' + image.dir;
+          image.obj.onload = function(){
+            count++;
+            successCount++;
+            if(count == total){
+              onComplete(successCount == total);              
+            }
+          };
+
+          image.obj.onerror = function(){
+            count++;
+            if(count == total){
+              onComplete(successCount == total);              
+            }
+          };
+        }
+      }
+    }
+
+    function animateLoading(){
+      var BG_WIDTH = 1004;
+      var BG_HEIGHT = 1337;
+      var ICON_WIDTH = 226;
+      var TAGLINE_WIDTH = 462;
+      var LOGO_WIDTH = 160;
+      var bg = new animation([
+        loadingDefines.imgs.bg01.obj,
+        loadingDefines.imgs.bg02.obj,
+        loadingDefines.imgs.bg03.obj,
+        loadingDefines.imgs.bg04.obj,
+        loadingDefines.imgs.bg05.obj,
+        loadingDefines.imgs.bg06.obj,
+      ], 8, 1);
+      var tagline = new animation([
+        loadingDefines.imgs.tagline.obj,
+      ], 1, 1);
+      var logo = new animation([
+        loadingDefines.imgs.logo.obj,
+      ], 1, 1);
+      var icon = new animation([
+        loadingDefines.imgs.icon01.obj,
+        loadingDefines.imgs.icon02.obj,
+        loadingDefines.imgs.icon03.obj,
+        loadingDefines.imgs.icon04.obj,
+        loadingDefines.imgs.icon05.obj,
+        loadingDefines.imgs.icon06.obj,
+      ], 15, 1);
+
+      bg.setPos(canvas.width / 2 - BG_WIDTH * bg.scale / 2, canvas.height / 2 - BG_HEIGHT * bg.scale / 2);
+      logo.setPos(canvas.width / 2 - LOGO_WIDTH * logo.scale / 2, canvas.height / 2 - 500);
+      tagline.setPos(canvas.width / 2 - TAGLINE_WIDTH * tagline.scale / 2, canvas.height / 2 - 300);
+      icon.setPos(canvas.width / 2 - ICON_WIDTH * icon.scale / 2, canvas.height / 2 - 160);
+
+      function loop() {
+        var current = Date.now();
+        var dt = (current - start) / 1000;
+        start = current;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        bg.update(dt);
+        tagline.update(dt);
+        logo.update(dt);
+        icon.update(dt);
+
+        myRequestAnimId = window.requestAnimationFrame(loop);
+      }
+
+      myRequestAnimId = window.requestAnimationFrame(loop);
+    }
+
+    function animation(imgs, eachFrameCount = 1, scale = 1){
+      this.imgs = imgs;
+      this.eachFrameCount = eachFrameCount;
+      this.scale = scale;
+      this.x = 0;
+      this.y = 0;
+      this.rotate = 0;
+      this.frameIndex = 0;
+      this.time = 0;
+      this.timePerFrame = loadingDefines.frameTime * this.eachFrameCount;
+
+      this.setPos = function(x, y){
+        this.x = x;
+        this.y = y;
+      };
+
+      this.update = function(dt){
+        this.time += dt;
+        if(this.time >= this.timePerFrame){
+          var step = Math.floor(this.time / this.timePerFrame);
+          this.time %= this.timePerFrame;
+          this.frameIndex = (this.frameIndex + step) % this.imgs.length;
+        }
+        this.render();
+      };
+
+      this.render = function(){
+        var img = this.imgs[this.frameIndex];
+        ctx.drawImage(img, 0, 0, img.width, img.height, this.x + (myIsPortrait ? myScreenOffset : 0), this.y + (myIsPortrait ? 0 : myScreenOffset), img.width * this.scale, img.height * this.scale);
+      };
+    }
+
+    loadImage(function(isLoaded){
+      if(isLoaded){
+        animateLoading();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
