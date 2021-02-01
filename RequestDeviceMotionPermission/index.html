@@ -48,45 +48,55 @@
         function onClick()
         {
             // feature detect
-            if (typeof DeviceMotionEvent.requestPermission === 'function')
+            if (!window.localStorage.getItem("deviceMotionPermission"))
             {
-                alert("request123123")
-                DeviceMotionEvent.requestPermission()
-                    .then(permissionState =>
-                    {
-                        alert(permissionState)
-
-                        setResult(permissionState)
-                        if (permissionState === 'granted')
+                if (typeof DeviceMotionEvent.requestPermission === 'function')
+                {
+                    DeviceMotionEvent.requestPermission()
+                        .then(permissionState =>
                         {
-                            window.addEventListener('devicemotion', () => { });
-                            var myShakeEvent = new Shake({
-                                threshold: 15
-                            });
-
-                            // start listening to device motion
-                            myShakeEvent.start();
-
-                            // register a shake event
-                            window.addEventListener('shake', shakeEventDidOccur, false);
-
-                            //shake event callback
-                            function shakeEventDidOccur()
+                            setResult(permissionState)
+                            if (permissionState === 'granted')
                             {
-
-                                //put your own code here etc.
-                                alert('Shake!');
+                                window.localStorage.getItem("deviceMotionPermission", "already granted")
+                                setEvent();
                             }
-                        }
-                    })
-                    .catch((err) =>
-                    {
-                        alert(err);
-                    })
-            } else
+                        })
+                        .catch((err) =>
+                        {
+                            alert(err);
+                        })
+                } else
+                {
+                    // handle regular non iOS 13+ devices
+                    setResult('DeviceOrientationEvent not detected')
+                }
+            }
+            else 
             {
-                // handle regular non iOS 13+ devices
-                setResult('DeviceOrientationEvent not detected')
+                setResult("already granted , shake to check")
+                setEvent()
+            }
+        }
+        function setEvent()
+        {
+            window.addEventListener('devicemotion', () => { });
+            var myShakeEvent = new Shake({
+                threshold: 15
+            });
+
+            // start listening to device motion
+            myShakeEvent.start();
+
+            // register a shake event
+            window.addEventListener('shake', shakeEventDidOccur, false);
+
+            //shake event callback
+            function shakeEventDidOccur()
+            {
+
+                //put your own code here etc.
+                alert('Shake!');
             }
         }
         function setResult(result)
