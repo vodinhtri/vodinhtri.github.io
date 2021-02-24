@@ -91,7 +91,7 @@ p.footer {
   left: 0;
   width: 100%;
   height: 100%;
-  /* background: #171717 url(./bg.a32a4.jpg) no-repeat center; */
+  /* background: #171717 url(./bg.a3024.jpg) no-repeat center; */
   background-size: auto;
 }
 #bgImg {
@@ -101,7 +101,7 @@ p.footer {
   left: 50%;
   /* width: 100%; */
   /* height: auto; */
-  /* background: #171717 url(./bg.a32a4.jpg) no-repeat center; */
+  /* background: #171717 url(./bg.a3024.jpg) no-repeat center; */
   background-size: cover;
 }
 @media only screen and (orientation: portrait)
