@@ -1,0 +1,180 @@
+html {
+  -ms-touch-action: none;
+}
+
+body, canvas, div {
+  display: block;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* Remove spin of input type number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+* {
+  font-smooth: nevers;
+}
+
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  margin: 0;
+
+  cursor: default;
+  color: #888;
+  background-color: #333;
+
+  text-align: center;
+  font-family: Helvetica, Verdana, Arial, sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  
+  /* fix bug: https://github.com/cocos-creator/2d-tasks/issues/791 */
+  /* overflow cannot be applied in Cocos2dGameContainer, 
+  otherwise child elements will be hidden when Cocos2dGameContainer rotated 90 deg */
+  overflow: hidden;
+}
+
+#Cocos2dGameContainer {
+  position: absolute;
+  margin: 0;
+  left: 0px;
+  top: 0px;
+
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+}
+
+canvas {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+a:link, a:visited {
+  color: #666;
+}
+
+a:active, a:hover {
+  color: #666;
+}
+
+p.header {
+  font-size: small;
+}
+
+p.footer {
+  font-size: x-small;
+}
+
+#splash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #171717 url(./loading.15d68.png) no-repeat center;
+  background-size: cover;
+}
+
+#tree {
+  position: absolute;
+  top: 43.5%;
+  left: 79.5%;
+  width: 10%;
+  height: 7%;
+  background: url(./tree.png) no-repeat center;
+  background-size: contain;
+}
+#decor {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 7%;
+  background: url(./decor.png) no-repeat center;
+  background-size: cover;
+}
+#logo {
+  position: absolute;
+  top: 66%;
+  left: 30%;
+  width: 40%;
+  height: 7%;
+  background: url(./logo.7c8d8.png) no-repeat center;
+  background-size: contain;
+}
+#Mylatsong {
+  position: absolute;
+  top: 66%;
+  left: 10%;
+  width: 80%;
+  height: 35%;
+  background: url(./mylatsong.png) no-repeat center;
+  background-size: contain;
+}
+
+#loading_bg {
+  position: absolute;
+  top: 85%;
+  left: 10%;
+  width: 300px;
+  height: 38px;
+  /* width: 80%;
+  height: 5.5%; */
+  background: url(./Loading_base.68ca4.png) no-repeat center;    
+  background-size: cover;    
+  /* border-radius: 9px; */
+}
+.progress-bar {
+    position: absolute;
+    left: 4.1%;
+    top: 26.3%;
+    height: 29%;
+    padding: 2px;
+    width: 91%;
+    border-radius: 29px;
+    background-color: #FCF4DA;
+    /* background-color: #FF0000; */
+    /* background: url(./imgs/Loading_base.png) no-repeat center;  
+    background-size: cover;  */
+}
+
+.progress-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 28px;
+    transition: width .4s ease-in-out;
+    background-color: #FFC40C;
+}
+
+.stripes span {
+    background-size: 30px 30px;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+                        transparent 75%, transparent);            
+    
+    animation: animate-stripes 1s linear infinite;             
+}
+
+@keyframes animate-stripes {
+    0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+}

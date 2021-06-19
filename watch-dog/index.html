@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Wacky Jacky</title>
+
+    <!--http://www.html5rocks.com/en/mobile/mobifying/-->
+    <meta
+      name="viewport"
+      content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"
+    />
+
+    <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- force webkit on 360 -->
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <!-- force edge on IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- force full screen on some browser -->
+    <meta name="full-screen" content="yes" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="360-fullscreen" content="true" />
+
+    <!-- force screen orientation on some browser -->
+    <meta name="screen-orientation" content="" />
+    <meta name="x5-orientation" content="" />
+
+    <!--fix fireball/issues/3568 -->
+    <!--<meta name="browsermode" content="application">-->
+    <meta name="x5-page-mode" content="app" />
+
+    <!--<link rel="apple-touch-icon" href=".png" />-->
+    <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
+
+    <link rel="stylesheet" type="text/css" href="style-mobile.16350.css" />
+    <link rel="icon" href="_SnowIcon.83478.ico" />
+    <script>
+      window.service_host='wss://mytelpay-beta.elofun.net'
+      window.token="5f6c9a979c9a9b9a9a9ca19f9fa06d7aa8a5aaa8a9a8a8aaafadadaedb403e307f82e6f083e886b6ec01d3f2edd3f0f7def9dbdbe80eea0ee401e20de40aefd302e3ead8ec0f15fefdebf3e3d91126f82313e31e2d0efcea20072203f00a1129f10e2b133d12092df8160d1b34181018443128204536421c4b322c23112549304b4314334a3a3d34534b522c384e1f345a39384c5b554c6e63523c436e456a543363486e7c5e584f3d555d63845987673f5d8b5f4663597d48666c918480656b886f8b6755718f6f59766d77a57aa795637e8595a67da2ae9f9aa69e6c9594a2ab89abb1ac9e9c7ab0948c94bba5a59fb89fbb9785a1bf9f89a69da7d5aad7c6988eb897afd3b7a7b3cccfe3d6c1dee6b2c3b3d4aaeee2e2c8ead2aeabdbc4cfcdf5c2b9cfb9b8ccffcec2c1f5e4d6e5e5e8e9d90bf7e5d903f1fff00ef50c1219fff4eae5faf81711e108db02d9faf4f7fc2b1b00262e07b7bc2d1f2e30d1.00e2e327d46b9a0ee932823049f493dc5b92471df20ebf09924f6fdd220145afc1e93465567a648a6dd9d5697e506d4fab707769dd4a5d5b13e9045563561422"
+      window.DEBUG_API=true
+      </script>
+      <script src="https://mytelpay-beta.elofun.net/services/gateway.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <canvas
+      id="GameCanvas"
+      oncontextmenu="event.preventDefault()"
+      tabindex="0"
+    ></canvas>
+    <div id="splash">
+      <div id="loading_bg">
+        <div class="progress-bar">
+          <span style="width: 0%"></span>
+        </div>
+      </div>
+      
+
+    </div>
+    <canvas
+      id="loading-canvas"
+      style="position: absolute; width: 100%; height: 100%; visibility: hidden"
+      width="750"
+      height="1334"
+      oncontextmenu="event.preventDefault()"
+    ></canvas>
+
+    <script src="src/settings.4a3eb.js" charset="utf-8"></script>
+
+    <script src="main.58e43.js" charset="utf-8"></script>
+
+    <script type="text/javascript">
+      (function () {
+        // open web debugger console
+        if (typeof VConsole !== "undefined") {
+          window.vConsole = new VConsole();
+        }
+        var loadingBg = document.getElementById("loading_bg");
+        loadingBg.style.left = (window.innerWidth-375)/2 + 37.5 + 'px';
+
+        var debug = window._CCSettings.debug;
+        var splash = document.getElementById("splash");
+        splash.style.display = "block";
+
+        function loadScript(moduleName, cb) {
+          function scriptLoaded() {
+            document.body.removeChild(domScript);
+            domScript.removeEventListener("load", scriptLoaded, false);
+            cb && cb();
+          }
+          var domScript = document.createElement("script");
+          domScript.async = true;
+          domScript.src = moduleName;
+          domScript.addEventListener("load", scriptLoaded, false);
+          document.body.appendChild(domScript);
+        }
+
+        loadScript(debug ? "cocos2d-js.js" : "cocos2d-js-min.0de5e.js", function () {
+          if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+            loadScript(debug ? "physics.js" : "physics-min.b5fcb.js", window.boot);
+          } else {
+            window.boot();
+          }
+
+          cc.director.once(
+            cc.Director.EVENT_AFTER_SCENE_LAUNCH,
+            cleanUpLoading
+          );
+        });
+      })();
+    </script>
+
+    <script>
+      var myOffsetX = 0;
+      var myOffsetSantaX = 0;
+      var santaWidth = 91;
+      var posStartX = 0;
+      var posEndX = 0;
+      var posY = 0;
+
+      window.onload = function () {
+        loadingCanvas.width =
+          loadingCanvas.height * (window.innerWidth / window.innerHeight);
+        loadingCanvas.style.visibility = "visible";
+        myOffsetX = (loadingCanvas.width - 750) / 2;
+        myOffsetSantaX = 750 / loadingCanvas.width;
+
+        posStartX = (loadingCanvas.width * 7.5) / 100;
+        posEndX =
+          (-myOffsetSantaX * santaWidth) / 2 + (loadingCanvas.width * 80) / 100;
+        posY = (loadingCanvas.height * 45.5) / 100;
+      };
+
+      var myRequestAnimId;
+      var loadingCanvas = document.getElementById("loading-canvas");
+
+      var splash = document.getElementById("splash");
+      var progressBar = splash.querySelector(".progress-bar span");
+
+      var loadingDefines = {
+        frameTime: 1 / 60,
+        imgs: {
+          // santa_0: { dir: "santa_0.png", obj: new Image(), loaded: false },
+          // santa_1: { dir: "santa_1.png", obj: new Image(), loaded: false },
+          // santa_2: { dir: "santa_2.png", obj: new Image(), loaded: false },
+          // santa_3: { dir: "santa_3.png", obj: new Image(), loaded: false },
+          // santa_4: { dir: "santa_4.png", obj: new Image(), loaded: false },
+          // santa_5: { dir: "santa_5.png", obj: new Image(), loaded: false },
+        },
+      };
+
+      var cleanUpLoading = function () {
+        document.body.removeChild(loadingCanvas);
+        window.cancelAnimationFrame(myRequestAnimId);
+        myRequestAnimId = null;
+        myOffsetX = null;
+        loadingCanvas = null;
+        loadingDefines = null;
+        cleanUpLoading = null;
+      };
+
+      (function () {
+        var canvas = loadingCanvas;
+        var ctx = canvas.getContext("2d");
+        var start = Date.now();
+        var mySpan = progressBar;
+
+        function loadImage(onComplete) {
+          var total = 0;
+          var count = 0;
+          var successCount = 0;
+          for (var key in loadingDefines.imgs) {
+            var image = loadingDefines.imgs[key];
+            if (!image.loaded) {
+              total++;
+              image.obj.src = "imgs/" + image.dir;
+              image.obj.onload = function () {
+                count++;
+                successCount++;
+                if (count == total) {
+                  onComplete(successCount == total);
+                }
+              };
+
+              image.obj.onerror = function () {
+                count++;
+                if (count == total) {
+                  onComplete(successCount == total);
+                }
+              };
+            }
+          }
+        }
+
+        function animateLoading() {
+          // var santa = new animation(
+          //   [
+          //     loadingDefines.imgs.santa_0.obj,
+          //     loadingDefines.imgs.santa_1.obj,
+          //     loadingDefines.imgs.santa_2.obj,
+          //     loadingDefines.imgs.santa_3.obj,
+          //     loadingDefines.imgs.santa_4.obj,
+          //     loadingDefines.imgs.santa_5.obj,
+          //   ],
+          //   4,
+          //   0.31
+          // );
+
+          function loop() {
+            var current = Date.now();
+            var dt = (current - start) / 1000;
+            start = current;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // santa.update(dt);
+            // santa.render(ctx);
+
+            var totalPercent = mySpan.style.width.slice(0, -1);
+            if (totalPercent >= 0) {
+              // santa.setPos(((posEndX - posStartX) * totalPercent) / 100, posY);
+            }
+
+            myRequestAnimId = window.requestAnimationFrame(loop);
+          }
+
+          myRequestAnimId = window.requestAnimationFrame(loop);
+        }
+
+        function animation(imgs, eachFrameCount, scale) {
+          this.x = 0;
+          this.y = 0;
+          this.rotate = 0;
+          this.frameIndex = 0;
+          this.time = 0;
+          this.timePerFrame = loadingDefines.frameTime * eachFrameCount;
+
+          this.setPos = function (x, y) {
+            this.x = x;
+            this.y = y;
+          };
+
+          this.update = function (dt) {
+            this.time += dt;
+            if (this.time >= this.timePerFrame) {
+              var step = Math.floor(this.time / this.timePerFrame);
+              this.time %= this.timePerFrame;
+              this.frameIndex = (this.frameIndex + step) % imgs.length;
+            }
+          };
+
+          this.render = function (ctx) {
+            var img = imgs[this.frameIndex];
+            ctx.drawImage(
+              img,
+              0,
+              0,
+              img.width,
+              img.height,
+              this.x,
+              this.y,
+              img.width * scale,
+              img.height * scale
+            );
+          };
+        }
+
+        loadImage(function (isLoaded) {
+          if (isLoaded) {
+            animateLoading();
+          }
+        });
+      })();
+    </script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      var firebaseConfig = {
+        apiKey: "AIzaSyBScYyqp01w3IMv9rRowFh3PRObsZ_7wbs",
+        authDomain: "mytelpay-luckycard.firebaseapp.com",
+        projectId: "mytelpay-luckycard",
+        storageBucket: "mytelpay-luckycard.appspot.com",
+        messagingSenderId: "375344110419",
+        appId: "1:375344110419:web:ed39cb07feee6d589adfa6",
+        measurementId: "G-QJZMN3X3Z8",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+
+      function traverseAndFlatten(currentNode, target, flattenedKey) {
+        for (var key in currentNode) {
+          if (currentNode.hasOwnProperty(key)) {
+            var newKey;
+            if (flattenedKey === undefined) {
+              newKey = key;
+            } else {
+              newKey = flattenedKey + "." + key;
+            }
+
+            var value = currentNode[key];
+            if (typeof value === "object") {
+              traverseAndFlatten(value, target, newKey);
+            } else {
+              target[newKey] = value;
+            }
+          }
+        }
+      }
+
+      function flatten(obj) {
+        var flattenedObject = {};
+        traverseAndFlatten(obj, flattenedObject);
+        return flattenedObject;
+      }
+
+      window.logEvent = function (name, params) {
+        var flatParams = flatten(params);
+        firebase.analytics().logEvent(name, flatParams);
+      };
+    </script>
+  </body>
+</html>
