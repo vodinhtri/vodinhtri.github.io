@@ -8,5 +8,12 @@
 </head>
 <body>
     <a href="sms:+1234&body={{ link.description }}" style="color:blue;background-color:#FFA500">SMS</a>
+    <button style="width: 10vw; height: 10vh;" onclick="onClick()"></button>
 </body>
+<script>
+    function onClick()
+    {
+        window.location = "sms:+1234&body={{ link.description }}"
+    }
+</script>
 </html>
