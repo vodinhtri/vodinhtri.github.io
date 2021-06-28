@@ -13,7 +13,8 @@
 <script>
     function onClick()
     {
-        window.location.href = "sms:9046&body=DK E"
+        var isIOS = navigator.userAgent.search(/(iPad|iPhone|iphone|iPod)/) != -1
+        window.location.href = `sms:9046${isIOS ? `&` : `?`}body=DK E`
     }
 </script>
 </html>
