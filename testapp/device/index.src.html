@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Elofun</title>
+  <meta name="viewport"
+    content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  <!-- force webkit on 360 -->
+  <meta name="renderer" content="webkit" />
+  <meta name="force-rendering" content="webkit" />
+  <!-- force edge on IE -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <!-- force screen orientation on some browser -->
+  <meta name="screen-orientation" content="portrait" />
+  <meta name="x5-orientation" content="portrait" />
+  <!--<meta name="browsermode" content="application">-->
+  <meta name="x5-page-mode" content="app" />
+  <style>
+    html {
+      -ms-touch-action: none;
+      touch-action: none;
+    }
+
+    body,
+    canvas,
+    div {
+      display: block;
+      outline: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -khtml-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    input::-webkit-inner-spin-button,
+    input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    body {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      margin: 0;
+      cursor: default;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    canvas {
+      background-color: rgba(0, 0, 0, 0);
+      opacity: 0;
+    }
+  </style>
+  <script type="text/javascript">
+    if (window.location.href.substr(0, 6) === "https:") {
+      console.log = () => setTimeout(console.clear, 0);
+      console.debug = () => setTimeout(console.clear, 0);
+      console.error = () => setTimeout(console.clear, 0);
+      console.warn = () => setTimeout(console.clear, 0);
+    }
+  </script>
+  <script src="./cocos2d-js-min.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <canvas id="GameCanvas" oncontextmenu="event.preventDefault()"
+    tabindex="0"></canvas>
+  <script type="text/javascript">
+    var eloGames = JSON.parse(localStorage.getItem('elogames'));
+    var params = new URLSearchParams(location.search);
+    var gameId = params.get('gameId');
+    var assetRoot = eloGames[gameId] || "";
+    var language = params.get('language') || localStorage.getItem("lang") || "en";
+    window.language = language;
+
+    var settings = {};
+
+    function postMsg(msg) {
+      window.parent.postMessage(
+        { ...msg, src: assetRoot, gameId: gameId },
+        window.location.origin
+      );
+    }
+
+    window.addEventListener('message', function (event) {
+      if (event.origin !== window.location.origin) {
+        return;
+      }
+      const msg = event.data;
+      onMsg(msg);
+    });
+
+    function onMsg(msg) {
+      if (!msg || !msg.type) {
+        return;
+      }
+      switch (msg.type) {
+        case 'loadGame':
+          document.location.reload();
+          break;
+        case 'startGame':
+          startGameScene(settings.launchScene);
+          break;
+        case 'GS_ENDGAME':
+          document.location.reload();
+          break;
+        case 'mute':
+          cc.audioEngine.setEffectsVolume(msg.data ? 0 : 0.8);
+          cc.audioEngine.setMusicVolume(msg.data ? 0 : 0.8);
+          break;
+        default:
+          break;
+      }
+    }
+
+    function startGameScene(launchScene) {
+      cc = window.cc;
+      cc.loader.downloader._subpackages = settings.subpackages;
+      cc.view.enableRetina(true);
+      cc.view.resizeWithBrowserSize(true);
+      cc.view.setResolutionPolicy(cc.ResolutionPolicy.FIXED_HEIGHT);
+
+      if (cc.sys.isMobile) {
+        if (settings.orientation === 'landscape') {
+          cc.view.setOrientation(cc.macro.ORIENTATION_LANDSCAPE);
+        } else if (settings.orientation === 'portrait') {
+          cc.view.setOrientation(cc.macro.ORIENTATION_PORTRAIT);
+        }
+      }
+
+      if (cc.sys.isBrowser && cc.sys.os === cc.sys.OS_ANDROID) {
+        cc.macro.DOWNLOAD_MAX_CONCURRENT = 2;
+      }
+
+      cc.director.loadScene(launchScene, function (err) {
+        if (!err) {
+          var canvas = document.getElementById('GameCanvas');
+          canvas.style.visibility = '';
+          canvas.style.opacity = 1;
+          console.log('Success to load scene: ' + launchScene);
+          postMsg({ type: 'gameStarted' });
+        }
+      });
+    }
+
+    function preloadScene(launchScene) {
+      var cc = window.cc;
+      cc.loader.downloader._subpackages = settings.subpackages;
+      cc.view.enableRetina(true);
+      cc.view.resizeWithBrowserSize(true);
+      cc.view.setResolutionPolicy(cc.ResolutionPolicy.FIXED_HEIGHT);
+
+      if (cc.sys.isMobile) {
+        if (settings.orientation === 'landscape') {
+          cc.view.setOrientation(cc.macro.ORIENTATION_LANDSCAPE);
+        } else if (settings.orientation === 'portrait') {
+          cc.view.setOrientation(cc.macro.ORIENTATION_PORTRAIT);
+        }
+      }
+
+      if (cc.sys.isBrowser && cc.sys.os === cc.sys.OS_ANDROID) {
+        cc.macro.DOWNLOAD_MAX_CONCURRENT = 2;
+      }
+
+      cc.director.preloadScene(
+        launchScene,
+        function (completedCount, totalCount) {
+          var percent = (100 * completedCount) / totalCount;
+          postMsg({
+            type: 'loadProgress',
+            data: percent,
+          });
+        },
+        function (err) {
+          if (!err) {
+            postMsg({
+              type: 'gamePreloaded',
+            });
+          }
+        }
+      );
+    }
+
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = url;
+      var scriptLoaded = function () {
+        document.head.removeChild(script);
+        script.removeEventListener('load', scriptLoaded, false);
+        cb && cb();
+      };
+      script.addEventListener('load', scriptLoaded, false);
+      document.head.appendChild(script);
+    }
+
+    function preLoadGame(src, startGame) {
+      src = src || assetRoot;
+      loadScript(assetRoot + '/src/settings.js', function () {
+        loadCocos();
+        settings = window._CCSettings;
+        window._CCSettings = undefined;
+        var uuids = settings.uuids;
+        var cc = window.cc;
+
+        var rawAssets = settings.rawAssets;
+        var assetTypes = settings.assetTypes;
+        var realRawAssets = (settings.rawAssets = {});
+        for (var mount in rawAssets) {
+          var entries = rawAssets[mount];
+          var realEntries = (realRawAssets[mount] = {});
+          for (var id in entries) {
+            var entry = entries[id];
+            var type = entry[1];
+            // retrieve minified raw asset
+            if (typeof type === 'number') {
+              entry[1] = assetTypes[type];
+            }
+            // retrieve uuid
+            realEntries[uuids[id] || id] = entry;
+          }
+        }
+
+        var scenes = settings.scenes;
+        for (var i = 0; i < scenes.length; ++i) {
+          var scene = scenes[i];
+          if (typeof scene.uuid === 'number') {
+            scene.uuid = uuids[scene.uuid];
+          }
+        }
+
+        var packedAssets = settings.packedAssets;
+        for (var packId in packedAssets) {
+          var packedIds = packedAssets[packId];
+          for (var j = 0; j < packedIds.length; ++j) {
+            if (typeof packedIds[j] === 'number') {
+              packedIds[j] = uuids[packedIds[j]];
+            }
+          }
+        }
+
+        var subpackages = settings.subpackages;
+        for (var subId in subpackages) {
+          var uuidArray = subpackages[subId].uuids;
+          if (uuidArray) {
+            for (var k = 0, l = uuidArray.length; k < l; k++) {
+              if (typeof uuidArray[k] === 'number') {
+                uuidArray[k] = uuids[uuidArray[k]];
+              }
+            }
+          }
+        }
+
+        // jsList
+        var jsList = settings.jsList;
+
+        var bundledScript = assetRoot + '/src/project.js';
+        if (jsList) {
+          jsList = jsList.map(function (x) {
+            return assetRoot + '/src/' + x;
+          });
+          jsList.push(bundledScript);
+        } else {
+          jsList = [bundledScript];
+        }
+
+        var option = {
+          id: 'GameCanvas',
+          scenes: settings.scenes,
+          debugMode: cc.debug.DebugMode.INFO,
+          showFPS: false,
+          frameRate: 30,
+          jsList: jsList,
+          groupList: settings.groupList,
+          collisionMatrix: settings.collisionMatrix,
+        };
+
+        // init assets
+        cc.AssetLibrary.init({
+          libraryPath: assetRoot + '/res/import',
+          rawAssetsBase: assetRoot + '/res/raw-',
+          rawAssets: settings.rawAssets,
+          packedAssets: settings.packedAssets,
+          md5AssetsMap: settings.md5AssetsMap,
+          subpackages: settings.subpackages,
+        });
+        cc.game.run(option, function () {
+          preloadScene(settings.launchScene);
+        });
+      });
+    }
+    if (gameId && assetRoot) {
+      preLoadGame(assetRoot);
+    }
+    postMsg({ type: 'frameLoaded' });
+  </script>
+</body>
+
+</html>

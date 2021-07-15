@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="414" height="110" viewBox="0 0 414 110">
+  <g id="Group_17511" data-name="Group 17511" transform="translate(0 -185)">
+    <rect id="Rectangle_4771" data-name="Rectangle 4771" width="116" height="23" rx="11.5" transform="translate(29 209)" fill="#38d2b7"/>
+    <text id="Last_2_week" data-name="Last 2 week" transform="translate(42 226)" fill="#fff" font-size="15" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Last 2 week</tspan></text>
+    <rect id="Rectangle_4771-2" data-name="Rectangle 4771" width="106" height="23" rx="11.5" transform="translate(155 209)" fill="#f6f6f6"/>
+    <text id="Last_week" data-name="Last week" transform="translate(170 226)" fill="#b2b2b2" font-size="15" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Last week</tspan></text>
+    <rect id="Rectangle_4771-3" data-name="Rectangle 4771" width="100" height="23" rx="11.5" transform="translate(271 209)" fill="#f6f6f6"/>
+    <text id="This_week" data-name="This week" transform="translate(283 226)" fill="#b2b2b2" font-size="15" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">This week</tspan></text>
+    <text id="You_have_123_Golden_Pot_Ticket" data-name="You have 123 Golden Pot Ticket" transform="translate(29 272)" fill="#b2b2b2" font-size="12" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="0" y="0">You have 123 Golden Pot Ticket</tspan></text>
+    <rect id="Rectangle_6292" data-name="Rectangle 6292" width="414" height="110" transform="translate(0 185)" fill="none"/>
+  </g>
+</svg>

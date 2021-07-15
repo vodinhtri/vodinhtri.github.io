@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="63" height="55" viewBox="0 0 63 55">
+  <defs>
+    <pattern id="pattern" width="1" height="1" viewBox="37.508 1.985 20.785 18.145">
+      <image preserveAspectRatio="xMidYMid slice" width="63" height="84.627" xlink:href="iconframe-image.png"/>
+    </pattern>
+  </defs>
+  <g id="Group_9130" data-name="Group 9130" transform="translate(-149.795 -150.198)">
+    <g id="Group_5189" data-name="Group 5189" transform="translate(150 150)">
+      <rect id="Screenshot_1" width="63" height="55" rx="3" transform="translate(-0.205 0.198)" fill="url(#pattern)"/>
+    </g>
+  </g>
+</svg>

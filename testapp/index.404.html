@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/icon.png" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale = 1.0, maximum-scale = 1.0 , user-scalable = no"
+    />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- force webkit on 360 -->
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <!-- force edge on IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- force screen orientation on some browser -->
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="x5-orientation" content="portrait" />
+
+    <!--<meta name="browsermode" content="application">-->
+    <meta name="x5-page-mode" content="app" />
+
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="EloFun games" />
+    <link rel="apple-touch-icon" href="icon.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Padauk:400,700&display=swap&subset=myanmar"
+      rel="stylesheet"
+    />
+    <title>Elo Fun</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-252N6XMKTV"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-252N6XMKTV');
+    </script>
+    <script
+      data-ad-client="ca-pub-6773586210121292"
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    ></script>
+    <style>
+      html {
+        -ms-touch-action: none !important;
+        touch-action: none !important;
+      }
+
+      svg {
+        -ms-touch-action: pan-y !important;
+        touch-action: pan-y !important;
+      }
+      html,
+      body {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        transform: translateZ(0);
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        background-color: #313133;
+      }
+
+      #root {
+        background-image: url('imgs/404.jpg');
+        height: 100%;
+        width: 100%;
+        max-width: calc(100vh * 3 / 4);
+        position: absolute;
+        background-size: cover;
+        background-position: top;
+        background-repeat: no-repeat;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

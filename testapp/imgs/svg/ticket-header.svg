@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="343" height="66" viewBox="0 0 343 66">
+  <g id="Group_17511" data-name="Group 17511" transform="translate(-28 -209)">
+    <g id="Group_14011" data-name="Group 14011" transform="translate(3 105)">
+      <g id="Group_9482" data-name="Group 9482" transform="translate(-72 -29)">
+        <rect id="Rectangle_4771" data-name="Rectangle 4771" width="116" height="23" rx="11.5" transform="translate(98 133)" fill="#38d2b7"/>
+        <text id="Last_2_week" data-name="Last 2 week" transform="translate(111 150)" fill="#fff" font-size="15" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Last 2 week</tspan></text>
+      </g>
+      <g id="Group_14013" data-name="Group 14013" transform="translate(54 -29)">
+        <rect id="Rectangle_4771-2" data-name="Rectangle 4771" width="106" height="23" rx="11.5" transform="translate(98 133)" fill="#f6f6f6"/>
+        <text id="Last_week" data-name="Last week" transform="translate(113 150)" fill="#b2b2b2" font-size="15" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">Last week</tspan></text>
+      </g>
+      <g id="Group_14014" data-name="Group 14014" transform="translate(170 -29)">
+        <rect id="Rectangle_4771-3" data-name="Rectangle 4771" width="100" height="23" rx="11.5" transform="translate(98 133)" fill="#f6f6f6"/>
+        <text id="This_week" data-name="This week" transform="translate(110 150)" fill="#b2b2b2" font-size="15" font-family="Montserrat-Medium, Montserrat" font-weight="500"><tspan x="0" y="0">This week</tspan></text>
+      </g>
+    </g>
+    <text id="You_have_123_Golden_Pot_Ticket" data-name="You have 123 Golden Pot Ticket" transform="translate(29 272)" fill="#b2b2b2" font-size="12" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="0" y="0">You have 123 Golden Pot Ticket</tspan></text>
+  </g>
+</svg>

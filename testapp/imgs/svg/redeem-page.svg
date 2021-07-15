@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="414" height="736" viewBox="0 0 414 736">
+  <defs>
+    <filter id="a" x="8" y="170.154" width="398.362" height="413.216" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha" />
+      <feGaussianBlur stdDeviation="3" result="b" />
+      <feFlood flood-opacity="0.302" />
+      <feComposite operator="in" in2="b" />
+      <feComposite in="SourceGraphic" />
+    </filter>
+    <clipPath id="d">
+      <rect width="414" height="736" />
+    </clipPath>
+  </defs>
+  <g id="c" clip-path="url(#d)">
+    <rect width="414" height="736" fill="#fff" />
+    <rect width="436.362" height="774.401" transform="translate(-17.158 -19.031)" fill="#0f5d7e" />
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#a)">
+      <rect width="380.362" height="395.216" rx="9" transform="translate(17 176.15)" fill="#fff" />
+    </g>
+    <rect width="136" height="39" rx="3" transform="translate(17 126)" fill="#f6f6f6" />
+    <rect width="217" height="39" rx="3" transform="translate(180 126)" fill="#df4b38" />
+    <g transform="translate(68 61)">
+      <g transform="translate(123 585)">
+        <path d="M5234.645,1959.076h0a15.7,15.7,0,0,1-15.7-15.7h0a15.7,15.7,0,0,1,15.7-15.7h0a15.7,15.7,0,0,1,15.7,15.7h0A15.7,15.7,0,0,1,5234.645,1959.076Z" transform="translate(-5218.94 -1927.668)" fill="#eee" />
+        <path d="M5246.786,1960.838h3.823v-9.573h2.667l.285-3.205h-2.952v-1.826c0-.756.152-1.054.883-1.054h2.069v-3.327h-2.647c-2.845,0-4.127,1.253-4.127,3.651v2.556H5244.8v3.245h1.988Z" transform="translate(-5233.476 -1935.642)" fill="#eee" />
+      </g>
+      <g transform="translate(442.83 38.285) rotate(45)">
+        <rect width="2.541" height="19.479" rx="1.27" transform="translate(181.469 603)" fill="#707070" />
+        <rect width="2.541" height="19.479" rx="1.27" transform="translate(173 614.01) rotate(-90)" fill="#707070" />
+      </g>
+    </g>
+    <text transform="translate(101 153)" fill="#b2b2b2" font-size="22" font-family="Montserrat-Bold, Montserrat" font-weight="700">
+      <tspan x="-27.445" y="0">Data</tspan>
+    </text>
+    <text transform="translate(304 153)" fill="#fff" font-size="22" font-family="Montserrat-Bold, Montserrat" font-weight="700">
+      <tspan x="-70.873" y="0">Onnet Voice</tspan>
+    </text>
+    <text transform="translate(81.5 49)" fill="#b2b2b2" font-size="15" font-family="Montserrat-Regular, Montserrat">
+      <tspan x="2.813" y="15">Select the pack you would like to </tspan>
+      <tspan x="37.5" y="38">redeem with your coins</tspan>
+    </text>
+    <g transform="matrix(0.921, 0.391, -0.391, 0.921, -1176.582, -721.797)" opacity="0.03">
+      <circle cx="17.71" cy="17.71" r="17.71" transform="translate(1854.129 735.84)" fill="#fff" />
+      <path d="M1588.907,798.413c-6.116-48.929,19.775-108.458,77.266-118.652s156.163-25.28,165.948,15.9-13.455,123.952-56.267,175.327-90.925,59.938-128.029,43.629S1588.907,798.413,1588.907,798.413Z" transform="translate(0 -39.24)" fill="#fff" />
+    </g>
+  </g>
+</svg>
