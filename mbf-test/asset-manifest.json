@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "./static/css/main.a4c72795.chunk.css",
+    "main.js": "./static/js/main.56f30c9c.chunk.js",
+    "runtime-main.js": "./static/js/runtime-main.3697a557.js",
+    "static/css/2.f2e89c77.chunk.css": "./static/css/2.f2e89c77.chunk.css",
+    "static/js/2.3c500628.chunk.js": "./static/js/2.3c500628.chunk.js",
+    "index.html": "./index.html",
+    "precache-manifest.2556070fd61d8c16bdc78105fc095467.js": "./precache-manifest.2556070fd61d8c16bdc78105fc095467.js",
+    "service-worker.js": "./service-worker.js",
+    "static/media/main.css": "./static/media/BebasNeue-Regular.d4f210f4.eot",
+    "static/media/styles.css": "./static/media/revicons.2feb69cc.eot"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3697a557.js",
+    "static/css/2.f2e89c77.chunk.css",
+    "static/js/2.3c500628.chunk.js",
+    "static/css/main.a4c72795.chunk.css",
+    "static/js/main.56f30c9c.chunk.js"
+  ]
+}

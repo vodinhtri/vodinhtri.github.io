@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="76" height="64" viewBox="0 0 76 64">
+  <g id="Group_14213" data-name="Group 14213" transform="translate(-55 -108)">
+    <text id="_4_" data-name="4 " transform="translate(85 148)" fill="#38d2b7" font-size="41" font-family="Montserrat-Black, Montserrat" font-weight="800"><tspan x="0" y="0">4 </tspan></text>
+    <g id="Group_12014" data-name="Group 12014" transform="translate(1 -18)">
+      <g id="Rectangle_4870" data-name="Rectangle 4870" transform="translate(97 178)" fill="#fff" stroke="#707070" stroke-width="1">
+        <rect width="1" height="1" stroke="none"/>
+        <rect x="0.5" y="0.5" fill="none"/>
+      </g>
+      <rect id="Rectangle_4869" data-name="Rectangle 4869" width="73" height="17" rx="8.5" transform="translate(57 170)" fill="#38d2b7"/>
+      <g id="Rectangle_4860" data-name="Rectangle 4860" transform="translate(54 167)" fill="#fff" stroke="#38d2b7" stroke-width="1">
+        <rect width="23" height="23" rx="11" stroke="none"/>
+        <rect x="0.5" y="0.5" width="22" height="22" rx="10.5" fill="none"/>
+      </g>
+      <text id="Players" transform="translate(78 183)" fill="#fff" font-size="12" font-family="Montserrat-Bold, Montserrat" font-weight="700"><tspan x="0" y="0">Players</tspan></text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="icon.png" />
+
+  <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale = 1.0 , user-scalable = no" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  <!-- force webkit on 360 -->
+  <meta name="renderer" content="webkit" />
+  <meta name="force-rendering" content="webkit" />
+  <!-- force edge on IE -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="msapplication-tap-highlight" content="no" />
+
+  <!-- force screen orientation on some browser -->
+  <meta name="screen-orientation" content="portrait" />
+  <meta name="x5-orientation" content="portrait" />
+
+  <!--<meta name="browsermode" content="application">-->
+  <meta name="x5-page-mode" content="app" />
+
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="EloFun games" />
+  <link rel="apple-touch-icon" href="icon.png" />
+
+  <!-- <link
+      href="https://fonts.googleapis.com/css?family=Padauk:400,700&display=swap&subset=myanmar"
+      rel="stylesheet"
+    /> -->
+
+  <title>Elo Fun</title>
+
+  <style>
+    html {
+      -ms-touch-action: none !important;
+      touch-action: none !important;
+    }
+
+    html,
+    body {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    svg {
+      -ms-touch-action: pan-y !important;
+      touch-action: pan-y !important;
+    }
+  </style>
+  <style>
+    .header {
+      background-image: url("/imgs/landing-page/header.png");
+      width: 100%;
+      height: calc(100vw * calc(371/1920));
+      background-size: cover;
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id = "intro">
+    <div class="header"></div>
+    <img src="imgs/landing-page/content.svg" style="width: calc(100vw * (860/1920)); transform: translate(-50%, 0); margin-left: 50vw;">
+    <img src="imgs/landing-page/footer.svg" style="width: 100%; margin: 0; padding-top: 5vh;">
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="414" height="736" viewBox="0 0 414 736">
+  <defs>
+    <filter id="a" x="-9" y="92" width="432.362" height="238.216" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha" />
+      <feGaussianBlur stdDeviation="3" result="b" />
+      <feFlood flood-opacity="0.302" />
+      <feComposite operator="in" in2="b" />
+      <feComposite in="SourceGraphic" />
+    </filter>
+    <filter id="c" x="-8.997" y="-5.808" width="431.997" height="102.807" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha" />
+      <feGaussianBlur stdDeviation="3" result="d" />
+      <feFlood flood-opacity="0.161" />
+      <feComposite operator="in" in2="d" />
+      <feComposite in="SourceGraphic" />
+    </filter>
+    <filter id="e" x="332.5" y="152.5" width="27" height="27" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha" />
+      <feGaussianBlur stdDeviation="0.5" result="f" />
+      <feFlood flood-opacity="0.161" />
+      <feComposite operator="in" in2="f" />
+      <feComposite in="SourceGraphic" />
+    </filter>
+    <filter id="g" x="331.5" y="212.5" width="27" height="27" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha" />
+      <feGaussianBlur stdDeviation="0.5" result="h" />
+      <feFlood flood-opacity="0.161" />
+      <feComposite operator="in" in2="h" />
+      <feComposite in="SourceGraphic" />
+    </filter>
+    <clipPath id="j">
+      <rect width="414" height="736" />
+    </clipPath>
+  </defs>
+  <g id="i" clip-path="url(#j)">
+    <rect width="414" height="736" fill="#fff" />
+    <rect width="436.362" height="752.401" transform="translate(-11.158 -0.031)" fill="#f6f6f6" />
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#a)">
+      <rect width="414.362" height="220.216" transform="translate(0 98)" fill="#fff" />
+    </g>
+    <g transform="matrix(0.921, 0.391, -0.391, 0.921, -1237.582, -762.797)" opacity="0.03">
+      <circle cx="17.71" cy="17.71" r="17.71" transform="translate(1876.876 651.226)" fill="#185d7a" />
+      <path d="M1588.907,798.413c-6.116-48.929,19.775-108.458,77.266-118.652s156.163-25.28,165.948,15.9-13.455,123.952-56.267,175.327-90.925,59.938-128.029,43.629S1588.907,798.413,1588.907,798.413Z" transform="translate(0 -39.24)" fill="#185d7a" />
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#c)">
+      <path d="M1284.064-298.683v65.574c0,15.02-6.7,19.233-29.125,19.233H899.187c-16.289,0-29.12-3.581-29.12-23.083v-61.724" transform="translate(-870.06 298.88)" fill="#185d7a" />
+    </g>
+    <text transform="translate(159 58)" fill="#fff" font-size="25" font-family="Montserrat-Bold, Montserrat" font-weight="700">
+      <tspan x="0" y="0">Setting</tspan>
+    </text>
+    <path d="M12.31,24.621a12.311,12.311,0,0,1-8.7-21.016,12.31,12.31,0,1,1,17.41,17.41A12.23,12.23,0,0,1,12.31,24.621Zm-1.244-18.9a1.433,1.433,0,0,0-1.013,2.446l3.909,3.909L10.04,16a1.433,1.433,0,0,0,2.027,2.027l4.853-4.853.025-.022c.021-.019.041-.037.061-.057a1.435,1.435,0,0,0,0-2.027L12.079,6.143A1.423,1.423,0,0,0,11.066,5.724Z" transform="translate(36.621 59) rotate(180)" fill="#fff" />
+    <g transform="translate(5 -71)">
+      <text transform="translate(75 301)" fill="#292929" font-size="18" font-family="Montserrat-Medium, Montserrat" font-weight="500">
+        <tspan x="0" y="0">Sound effect</tspan>
+      </text>
+    </g>
+    <line x2="341.977" transform="translate(40.5 193.5)" fill="none" stroke="#dcdcdc" stroke-width="0.5" opacity="0.4" />
+    <line x2="341.977" transform="translate(39.5 283.5)" fill="none" stroke="#dcdcdc" stroke-width="0.5" opacity="0.4" />
+    <g transform="translate(4 -131)">
+      <text transform="translate(75 301)" fill="#292929" font-size="18" font-family="Montserrat-Medium, Montserrat" font-weight="500">
+        <tspan x="0" y="0">Background music</tspan>
+      </text>
+    </g>
+    <rect width="50" height="26" rx="13" transform="translate(333 152)" fill="#f6f6f6" />
+    <rect width="50" height="26" rx="13" transform="translate(332 212)" fill="#f6f6f6" />
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#e)">
+      <circle cx="12" cy="12" r="12" transform="translate(334 153)" fill="#fff" />
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#g)">
+      <circle cx="12" cy="12" r="12" transform="translate(333 213)" fill="#fff" />
+    </g>
+    <text transform="translate(231 141)" fill="#fff" font-size="15" font-family="Montserrat-SemiBold, Montserrat" font-weight="600">
+      <tspan x="0" y="0">English</tspan>
+    </text>
+    <g transform="translate(39.615 137.742)">
+      <path d="M174.385,23.148a7.733,7.733,0,0,0-2.994-2.947,8.424,8.424,0,0,1-2.21-1.869l-.1-.141a3.659,3.659,0,0,1-.77-1.38.816.816,0,0,0-.88-.717.831.831,0,0,0-.773.83V31.742a4.811,4.811,0,0,0-2.495-.682c-2.292,0-4.158,1.492-4.158,3.326s1.866,3.326,4.158,3.326,4.158-1.492,4.158-3.326V24.694a5.986,5.986,0,0,1,3.855,4.532,4.494,4.494,0,0,1-.321.454.831.831,0,1,0,1.247,1.1,8.488,8.488,0,0,0,1.869-4.886A5.519,5.519,0,0,0,174.385,23.148Z" transform="translate(-151.684 -0.023)" fill="#feb517" />
+      <g transform="translate(0 16.069)">
+        <path d="M.832,17.732h9.979a.832.832,0,0,0,0-1.663H.832a.832.832,0,1,0,0,1.663Z" transform="translate(0 -16.069)" fill="#38d2b7" />
+        <path d="M.832,113.732h9.979a.832.832,0,1,0,0-1.663H.832a.832.832,0,1,0,0,1.663Z" transform="translate(0 -107.079)" fill="#38d2b7" />
+        <path d="M5.821,208.069H.832a.832.832,0,1,0,0,1.663h4.99a.832.832,0,1,0,0-1.663Z" transform="translate(0 -198.09)" fill="#38d2b7" />
+        <path d="M5.821,304.069H.832a.832.832,0,0,0,0,1.663h4.99a.832.832,0,0,0,0-1.663Z" transform="translate(0 -289.1)" fill="#38d2b7" />
+      </g>
+    </g>
+    <g transform="translate(39.344 211.148)">
+      <g transform="translate(8.376 7.456)">
+        <path d="M196.94,162.162a.691.691,0,0,0-.566-.149l-10.125,1.841a.69.69,0,0,0-.567.679v8.792a2.531,2.531,0,1,0,1.381,2.253v-6.787l8.744-1.59v4.283a2.531,2.531,0,1,0,1.381,2.253V162.692A.69.69,0,0,0,196.94,162.162Z" transform="translate(-182.001 -162.002)" fill="#dd636e" />
+        <path d="M392.5,162.162a.69.69,0,0,0-.566-.149l-4.939.9V168l4.372-.795v4.283a2.531,2.531,0,1,0,1.381,2.253V162.692A.69.69,0,0,0,392.5,162.162Z" transform="translate(-377.566 -162.002)" fill="#d82e3d" />
+      </g>
+      <g transform="translate(0 0)">
+        <path d="M9.877.16A.69.69,0,0,0,9.311.011L4.249.932a.69.69,0,0,0-.567.679V10.4a2.531,2.531,0,1,0,1.381,2.253V5.869l4.5-.817a.69.69,0,0,0,.567-.679V.69A.69.69,0,0,0,9.877.16Z" transform="translate(0 0)" fill="#6be4ce" />
+        <path d="M152.974.16a.69.69,0,0,0-.566-.149L150,.449V5.534l2.655-.483a.69.69,0,0,0,.567-.679V.69a.69.69,0,0,0-.248-.53Z" transform="translate(-143.097 0)" fill="#38d2b7" />
+      </g>
+      <g transform="translate(0 16.66)">
+        <path d="M3.452,368.9a.69.69,0,0,1-.69-.69A2.153,2.153,0,0,0,.69,366.143a.69.69,0,0,1,0-1.381,2.153,2.153,0,0,0,2.071-2.071.69.69,0,1,1,1.381,0,2.153,2.153,0,0,0,2.071,2.071.69.69,0,0,1,0,1.381,2.153,2.153,0,0,0-2.071,2.071A.69.69,0,0,1,3.452,368.9Z" transform="translate(0 -362.001)" fill="#ffe646" />
+        <path d="M75.69,368.214a2.153,2.153,0,0,1,2.071-2.071.69.69,0,1,0,0-1.381,2.153,2.153,0,0,1-2.071-2.071A.69.69,0,0,0,75,362v6.9A.69.69,0,0,0,75.69,368.214Z" transform="translate(-71.548 -362.001)" fill="#ffc81e" />
+      </g>
+      <g transform="translate(11.966 0)">
+        <path d="M263.452,6.9a.69.69,0,0,1-.69-.69,2.153,2.153,0,0,0-2.071-2.071.69.69,0,1,1,0-1.381A2.153,2.153,0,0,0,262.761.691a.69.69,0,1,1,1.381,0,2.153,2.153,0,0,0,2.071,2.071.69.69,0,1,1,0,1.381,2.153,2.153,0,0,0-2.071,2.071A.69.69,0,0,1,263.452,6.9Z" transform="translate(-260 -0.001)" fill="#ffe646" />
+        <path d="M335.69,6.214a2.153,2.153,0,0,1,2.071-2.071.69.69,0,0,0,0-1.381A2.153,2.153,0,0,1,335.69.691.69.69,0,0,0,335,0V6.9A.69.69,0,0,0,335.69,6.214Z" transform="translate(-331.548 -0.001)" fill="#ffc81e" />
+      </g>
+    </g>
+  </g>
+</svg>

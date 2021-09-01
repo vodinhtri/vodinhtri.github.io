@@ -1,0 +1,202 @@
+
+MC_Animation.png
+size: 1953,1016
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BG
+  rotate: true
+  xy: 2, 12
+  size: 1002, 1334
+  orig: 1004, 1336
+  offset: 1, 1
+  index: -1
+arm
+  rotate: true
+  xy: 1670, 2
+  size: 64, 44
+  orig: 66, 46
+  offset: 1, 1
+  index: -1
+bag
+  rotate: true
+  xy: 1338, 2
+  size: 166, 172
+  orig: 168, 174
+  offset: 1, 1
+  index: -1
+body
+  rotate: false
+  xy: 1338, 580
+  size: 248, 434
+  orig: 248, 434
+  offset: 0, 0
+  index: -1
+carrot01
+  rotate: true
+  xy: 1512, 12
+  size: 127, 156
+  orig: 129, 158
+  offset: 1, 1
+  index: -1
+carrot02
+  rotate: false
+  xy: 1793, 11
+  size: 74, 55
+  orig: 76, 57
+  offset: 1, 1
+  index: -1
+carrot03
+  rotate: false
+  xy: 1588, 141
+  size: 179, 110
+  orig: 181, 112
+  offset: 1, 1
+  index: -1
+corner_mouth
+  rotate: true
+  xy: 1940, 758
+  size: 21, 10
+  orig: 23, 12
+  offset: 1, 1
+  index: -1
+ear_L
+  rotate: true
+  xy: 1588, 253
+  size: 251, 185
+  orig: 251, 185
+  offset: 0, 0
+  index: -1
+ear_R
+  rotate: false
+  xy: 1833, 511
+  size: 105, 268
+  orig: 105, 268
+  offset: 0, 0
+  index: -1
+eye_L
+  rotate: true
+  xy: 1769, 174
+  size: 77, 68
+  orig: 79, 70
+  offset: 1, 1
+  index: -1
+eye_R
+  rotate: true
+  xy: 1716, 4
+  size: 62, 75
+  orig: 64, 77
+  offset: 1, 1
+  index: -1
+eye_close
+  rotate: false
+  xy: 1670, 68
+  size: 187, 71
+  orig: 189, 73
+  offset: 1, 1
+  index: -1
+eyebrow_L
+  rotate: false
+  xy: 1902, 98
+  size: 48, 36
+  orig: 50, 38
+  offset: 1, 1
+  index: -1
+eyebrow_R
+  rotate: false
+  xy: 1512, 142
+  size: 20, 26
+  orig: 22, 28
+  offset: 1, 1
+  index: -1
+feather
+  rotate: true
+  xy: 1826, 378
+  size: 126, 125
+  orig: 126, 126
+  offset: 0, 1
+  index: -1
+grass
+  rotate: true
+  xy: 1775, 271
+  size: 233, 49
+  orig: 235, 51
+  offset: 1, 1
+  index: -1
+hand
+  rotate: false
+  xy: 1839, 188
+  size: 72, 66
+  orig: 74, 68
+  offset: 1, 1
+  index: -1
+hand02
+  rotate: true
+  xy: 1826, 256
+  size: 51, 86
+  orig: 51, 86
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 1588, 506
+  size: 243, 273
+  orig: 245, 275
+  offset: 1, 1
+  index: -1
+iris_L
+  rotate: false
+  xy: 1908, 136
+  size: 43, 50
+  orig: 45, 52
+  offset: 1, 1
+  index: -1
+iris_R
+  rotate: false
+  xy: 1914, 261
+  size: 37, 46
+  orig: 39, 48
+  offset: 1, 1
+  index: -1
+leaf01
+  rotate: true
+  xy: 1859, 89
+  size: 55, 41
+  orig: 57, 43
+  offset: 1, 1
+  index: -1
+leaf02
+  rotate: true
+  xy: 1826, 309
+  size: 67, 114
+  orig: 69, 116
+  offset: 1, 1
+  index: -1
+leaf03
+  rotate: false
+  xy: 1848, 146
+  size: 58, 40
+  orig: 60, 42
+  offset: 1, 1
+  index: -1
+leaf_foreground1
+  rotate: false
+  xy: 1588, 781
+  size: 363, 233
+  orig: 365, 235
+  offset: 1, 1
+  index: -1
+leaf_foreground2
+  rotate: true
+  xy: 1338, 170
+  size: 408, 248
+  orig: 410, 250
+  offset: 1, 1
+  index: -1
+mouth
+  rotate: false
+  xy: 1769, 141
+  size: 77, 31
+  orig: 77, 31
+  offset: 0, 0
+  index: -1
