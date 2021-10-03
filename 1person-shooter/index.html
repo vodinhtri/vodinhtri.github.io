@@ -362,7 +362,7 @@
                 clonedScene.castShadow = true
                 clonedScene.receiveShadow = true
 
-                var cubeGeometry = new THREE.BoxGeometry( 112, 10, 25 );
+                var cubeGeometry = new THREE.BoxGeometry( 112, 10, 22 );
                 var wireMaterial = new THREE.MeshBasicMaterial( { color: 0x000, wireframe: true } );
                 this.MovingCube = new THREE.Mesh( cubeGeometry, wireMaterial );
                 this.MovingCube.position.set( 34.807, 0, 0 )
@@ -392,7 +392,7 @@
                 enemy.playAnim()
                 this.pool.push( enemy )
                 scene.add( enemy )
-                const posZ = Utils.randInt( -10, 10 )
+                const posZ = Utils.randInt( -9, 9 )
                 const posX = Utils.randInt( -21, 90 )
                 enemy.position.x = posX
                 enemy.position.z = posZ
