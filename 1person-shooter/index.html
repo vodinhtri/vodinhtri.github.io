@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shooter</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .loading {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            z-index: 1000;
+        }
+
+        .wave {
+            width: 5px;
+            height: 100px;
+            background: linear-gradient(45deg, cyan, #fff);
+            margin: 10px;
+            animation: wave 1s linear infinite;
+            border-radius: 20px;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .wave:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .wave:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .wave:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        .wave:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+
+        .wave:nth-child(7) {
+            animation-delay: 0.6s;
+        }
+
+        .wave:nth-child(8) {
+            animation-delay: 0.7s;
+        }
+
+        .wave:nth-child(9) {
+            animation-delay: 0.8s;
+        }
+
+        .wave:nth-child(10) {
+            animation-delay: 0.9s;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(0);
+            }
+        }
+
+        .ui-container {
+            z-index: 10;
+        }
+
+        .text {
+            color: white;
+            font-size: 20px;
+        }
+
+        #player-hp {
+            position: absolute;
+            top: 2%;
+            right: 2%;
+        }
+
+        #player-ammo {
+            position: absolute;
+            top: 6%;
+            right: 2%;
+        }
+
+        .container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .popup {
+            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            visibility: hidden;
+        }
+
+        .popup button {
+            transform: translate(-50%, -50%);
+            width: 10%;
+            height: 10%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            visibility: hidden;
+        }
+
+        .popup #popup-level {
+            transform: translate(-50%, -50%);
+            font-size: 5vh;
+            position: absolute;
+            left: 50%;
+            top: 32%
+        }
+
+        .popup #popup-time {
+            transform: translate(-50%, -50%);
+            font-size: 5vh;
+            position: absolute;
+            left: 50%;
+            top: 40%
+        }
+
+        #blocker {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        #instructions {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <canvas id="game-container"></canvas> -->
+    <div class="loading" id="loading">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+    <div id="blocker">
+        <div id="instructions">
+            <p style="font-size:36px; color: white;">
+                Click to play
+            </p>
+        </div>
+    </div>
+    <div id="ui-contianer" class="container ui-container">
+        <div id="level" class="text">level : 1</div>
+        <div id="total-enemies" class="text">Total enemies : 10</div>
+        <div id="remain-enemies" class="text">enemies remain : 10</div>
+        <div id="score" class="text">Your score : 10</div>
+        <div id="player-hp" class="text">Your HP : 10</div>
+        <div id="player-ammo" class="text">Your Ammo : 10</div>
+    </div>
+    <div id="popup" class="container popup">
+        <div id="popup-level">Level 1 is Comming</div>
+        <div id="popup-time">3</div>
+        <button id="btn-replay">Play Again</button>
+    </div>
+    <script>
+        GameDefine = {
+            PLAYER_HP: 10,
+            PLAYER_HEIGHT: 1.5,
+            PLAYER_SPEED: 100,
+            PLAYER_DMG: 1,
+            PLAYER_MAX_AMMO: 20,
+            PLAYER_RELOAD_TIME: 5,
+            LEVEL: {
+                1: {
+                    total: 5,
+                    ENEMY_DMG: 1,
+                    ENEMY_HP: 2,
+                },
+                2: {
+                    total: 10,
+                    ENEMY_DMG: 2,
+                    ENEMY_HP: 6,
+                },
+                3: {
+                    total: 15,
+                    ENEMY_DMG: 3,
+                    ENEMY_HP: 10,
+                }
+            }
+        };
+        var cc = {
+            log: console.log
+        }
+    </script>
+    <script type="module">
+
+        import * as THREE from 'https://cdn.skypack.dev/three@0.133.0'
+        import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.133.0/examples/jsm/loaders/GLTFLoader'
+        import * as SkeletonUtils from 'https://cdn.skypack.dev/three@0.133.0/examples/jsm/utils/SkeletonUtils.js';
+        import { RoomEnvironment } from 'https://cdn.skypack.dev/three@0.133.0/examples/jsm/environments/RoomEnvironment.js';
+        import { PointerLockControls } from 'https://cdn.skypack.dev/three@0.133.0/examples/jsm/controls/PointerLockControls.js';
+
+        //-- utils
+        var Utils = {
+            convertDegreeToRadian: ( degree ) =>
+            {
+                return degree * Math.PI / 180
+            },
+            randInt: ( min, max ) =>
+            {
+                return Math.floor( Math.random() * ( max - min + 1 ) + min );
+            },
+            getRealPosition: ( object ) =>
+            {
+                var pos = new THREE.Vector3();
+                pos.setFromMatrixPosition( object.matrixWorld );
+                return pos
+            },
+            checkTouching: ( a, d, isRealPos ) =>
+            {
+                var aPos = new THREE.Vector3();
+                var dPos = new THREE.Vector3();
+                if ( isRealPos )
+                {
+                    aPos.setFromMatrixPosition( a.matrixWorld );
+                    dPos.setFromMatrixPosition( d.matrixWorld );
+                }
+                else
+                {
+                    aPos = a.position.clone().add( a.parent.position )
+                    dPos = d.position.clone().add( d.parent.position )
+                }
+
+                let b1 = aPos.y - a.geometry.parameters.height / 2; //1
+                let t1 = aPos.y + a.geometry.parameters.height / 2;
+                let r1 = aPos.x + a.geometry.parameters.width / 2;
+                let l1 = aPos.x - a.geometry.parameters.width / 2;
+                let f1 = aPos.z - a.geometry.parameters.depth / 2;
+                let B1 = aPos.z + a.geometry.parameters.depth / 2;
+                let b2 = dPos.y - d.geometry.parameters.height / 2;
+                let t2 = dPos.y + d.geometry.parameters.height / 2;//2
+                let r2 = dPos.x + d.geometry.parameters.width / 2;
+                let l2 = dPos.x - d.geometry.parameters.width / 2;
+                let f2 = dPos.z - d.geometry.parameters.depth / 2;
+                let B2 = dPos.z + d.geometry.parameters.depth / 2;
+                if ( t1 < b2 || r1 < l2 || b1 > t2 || l1 > r2 || f1 > B2 || B1 < f2 )
+                {
+                    return false;
+                }
+                return true;
+            }
+        };
+        //---------------------loading
+        const models = {
+            town: { url: "resource/ChinaTown_01.glb" },
+            gun: { url: "resource/Gun_M249_02.glb" },
+            hand: { url: "resource/Hand_M249_01.glb" },
+            zombie: { url: "resource/Zombie_Homeless_04.glb" },
+        };
+        const Audios = {
+            shoot: { url: "sounds/ak47_shot.wav" },
+            hit: { url: "sounds/hit.mp3" },
+            reload: { url: "sounds/reload.mp3" },
+            bg: { url: "sounds/bg.mp3" },
+        }
+        const audioLoader = new THREE.AudioLoader();
+        for ( const audio of Object.values( Audios ) )
+        {
+            audioLoader.load( audio.url, function ( buffer )
+            {
+                audio.buffer = buffer;
+            } );
+        }
+        const manager = new THREE.LoadingManager();
+        manager.onLoad = init;
+
+        manager.onProgress = ( url, itemsLoaded, itemsTotal ) =>
+        {
+            cc.log( itemsLoaded / itemsTotal * 100 )
+        };
+
+        const gltfLoader = new GLTFLoader( manager );
+        for ( const model of Object.values( models ) )
+        {
+            gltfLoader.load( model.url, ( gltf ) =>
+            {
+                model.gltf = gltf;
+            } );
+        }
+        const mixers = []
+        function prepModelsAndAnimations()
+        {
+            Object.values( models ).forEach( model =>
+            {
+                model.gltf.scene.traverse( child =>
+                {
+                    if ( child.material ) child.material.metalness = 0;
+                } );
+                const animsByName = {};
+                model.gltf.animations.forEach( ( clip ) =>
+                {
+                    animsByName[ clip.name ] = clip;
+                } );
+                model.animations = animsByName;
+            } );
+        }
+        function init()
+        {
+            document.getElementById( "loading" ).style.visibility = "hidden"
+            prepModelsAndAnimations();
+            start();
+        }
+        function start()
+        {
+            const game = new Game();
+            window.game = game
+        }
+        class Plane extends THREE.Object3D
+        {
+            constructor( scene )
+            {
+                super( scene )
+                const clonedScene = SkeletonUtils.clone( models.town.gltf.scene );
+                this.add( clonedScene );
+                clonedScene.position.set( 0, 0, 30 )
+                clonedScene.castShadow = true
+                clonedScene.receiveShadow = true
+
+                var cubeGeometry = new THREE.BoxGeometry( 112, 10, 25 );
+                var wireMaterial = new THREE.MeshBasicMaterial( { color: 0x000, wireframe: true } );
+                this.MovingCube = new THREE.Mesh( cubeGeometry, wireMaterial );
+                this.MovingCube.position.set( 34.807, 0, 0 )
+                this.MovingCube.visible = false
+                this.add( this.MovingCube );
+                // var box = new THREE.Box3().setFromObject( colladaModel );
+                // console.log( box.min, box.max, box.getSize() );
+
+                scene.add( this )
+            }
+        }
+        class EnemyMgr
+        {
+            constructor( game, listener )
+            {
+                this.game = game
+                this.listener = listener
+                this.pool = []
+            }
+            getEnemyById( id )
+            {
+                return this.pool[ id ] || null
+            }
+            spawn( scene )
+            {
+                let enemy = new Enemy( this.game )
+                enemy.playAnim()
+                this.pool.push( enemy )
+                scene.add( enemy )
+                const posZ = Utils.randInt( -10, 10 )
+                const posX = Utils.randInt( -21, 90 )
+                enemy.position.x = posX
+                enemy.position.z = posZ
+            }
+            hit( enemy, dmg )
+            {
+                let e = this.pool.find( e => e == enemy )
+                if ( e )
+                {
+                    if ( e.reduceHP( dmg ) )
+                    {
+                        this.kill( enemy )
+                        this.game.addScore()
+                    }
+                    this.sound = new THREE.Audio( this.listener );
+                    this.sound.setBuffer( Audios.hit.buffer );
+                    this.sound.setLoop( false );
+                    this.sound.play()
+                }
+            }
+            kill( enemy )
+            {
+                this.game.killEnemy()
+                this.pool.splice( this.pool.indexOf( enemy ), 1 )
+                enemy.kill()
+            }
+            reload()
+            {
+                for ( let enemy of this.pool )
+                {
+                    enemy.kill( true )
+                }
+                this.pool = []
+            }
+            update( dt )
+            {
+                for ( let enemy of this.pool )
+                {
+                    enemy.update( dt )
+                }
+            }
+        }
+        class Enemy extends THREE.Object3D
+        {
+            constructor( game )
+            {
+                super()
+                this.game = game;
+                this.hp = GameDefine.LEVEL[ game.level ].ENEMY_HP
+                this.dmg = GameDefine.LEVEL[ game.level ].ENEMY_DMG
+                const clonedScene = SkeletonUtils.clone( models.zombie.gltf.scene );
+                this.model = clonedScene
+                this.model.position.y -= 1
+                this.add( this.model )
+                this.pid = null
+                this.isAttack = false;
+
+                var cubeGeometry = new THREE.BoxGeometry( 1, 1.8, 1 );
+                var wireMaterial = new THREE.MeshBasicMaterial( { color: 0x000, wireframe: false } );
+                this.MovingCube = new THREE.Mesh( cubeGeometry, wireMaterial );
+                this.add( this.MovingCube );
+                this.MovingCube.position.set( 0, -0.1, 0 )
+                this.MovingCube.visible = false
+                this.isStopMove = true
+                this.position.set( 0, 1, 0 )
+            }
+            playAnim()
+            {
+                this.mixer = new THREE.AnimationMixer( this.model );
+                const firstClip = Object.values( models.zombie.animations )[ 0 ];
+                this.action = this.mixer.clipAction( firstClip );
+                this.action.setLoop( THREE.LoopOnce )
+                this.pid = setInterval( () =>
+                {
+                    this.action.reset();
+                }, 810 )
+                this.action.play();
+                mixers.push( this.mixer );
+            }
+            attack()
+            {
+                if ( this.isAttack ) return
+                this.isAttack = true
+                setTimeout( () =>
+                {
+                    this.isAttack = false
+                }, 1500 );
+            }
+            reduceHP( dmg )
+            {
+                this.hp -= dmg
+                return this.hp <= 0
+            }
+            kill( isHard = false )
+            {
+                clearInterval( this.pid )
+                this.action.reset();
+                if ( isHard )
+                {
+                    this.parent.remove( this )
+                    return
+                }
+
+                setTimeout( () =>
+                {
+                    this.parent.remove( this )
+                }, 2000 );
+            }
+            stopMove( isStop )
+            {
+                this.isStopMove = isStop
+            }
+            update()
+            {
+                if ( this.isStopMove ) return
+                let target = this.game.controls.getObject().position.clone()
+                this.lookAt( target )
+                let v = new THREE.Vector3().lerpVectors( this.position.clone(), target, 0.005 )
+                this.position.x = v.x
+                this.position.z = v.z
+                this.position.y = this.position.y
+            }
+        }
+        class Player extends THREE.Object3D
+        {
+            constructor( game, listener )
+            {
+                super()
+                this.game = game
+                this.listener = listener
+                const clonedScene = SkeletonUtils.clone( models.gun.gltf.scene );
+                this.gun = clonedScene
+                this.add( this.gun )
+                // this.gunHead = new THREE.Mesh( new THREE.SphereGeometry( 0.01, 8, 8 ), new THREE.MeshBasicMaterial( { color: 0xffffff } ) )
+                // this.gun.add( this.gunHead )
+                // this.gunHead.position.set( 0, 0.114, 0.733 )
+
+                this.rotation.y = Utils.convertDegreeToRadian( 180 )
+
+                var cubeGeometry = new THREE.BoxGeometry( 1, 2, 1 );
+                var wireMaterial = new THREE.MeshBasicMaterial( { color: 0x000 } );
+                this.MovingCube = new THREE.Mesh( cubeGeometry, wireMaterial );
+                this.MovingCube.position.set( 0, -1, 0 )
+                this.MovingCube.visible = false
+                this.add( this.MovingCube );
+                this.ammo = GameDefine.PLAYER_MAX_AMMO
+                this.init(),
+                    this.canShoot = true
+            }
+            init()
+            {
+                this.canShoot = true
+                this.ammo = GameDefine.PLAYER_MAX_AMMO
+                this.hp = GameDefine.PLAYER_HP
+                this.dmg = GameDefine.PLAYER_DMG
+            }
+            reload()
+            {
+                this.init()
+            }
+            reduceHP( dmg )
+            {
+                this.hp -= dmg
+                if ( this.hp <= 0 ) 
+                {
+                    this.hp = 0
+                    this.game.endGame()
+                    return;
+                }
+                // this.sound = new THREE.Audio( this.listener );
+                // this.sound.setBuffer( Audios.hit.buffer );
+                // this.sound.setLoop( false );
+                // this.sound.play()
+            }
+            reduceAmmo()
+            {
+                this.ammo--
+                if ( this.ammo <= 0 )
+                {
+                    this.ammo = 0
+                    this.sound = new THREE.Audio( this.listener );
+                    this.sound.setBuffer( Audios.reload.buffer );
+                    this.sound.setLoop( false );
+                    this.sound.play()
+                    let t = GameDefine.PLAYER_RELOAD_TIME
+                    let i = setInterval( () =>
+                    {
+                        t--
+                        if ( t <= 0 )
+                        {
+                            clearInterval( i )
+                            this.sound.stop()
+                            this.ammo = GameDefine.PLAYER_MAX_AMMO
+                            return
+                        }
+                        this.sound.play()
+
+                    }, 1000 );
+                }
+            }
+        }
+        class BulletMgr
+        {
+            constructor()
+            {
+                this.pool = [];
+            }
+            getBulletById( id )
+            {
+                return this.pool[ id ] || null
+            }
+            spawn( scene, direct, pos, listener )
+            {
+                this.shotSound = new THREE.Audio( listener );
+                this.shotSound.setBuffer( Audios.shoot.buffer );
+                this.shotSound.setLoop( false );
+                this.shotSound.play()
+
+                let bullet = new Bullet( direct, pos )
+                this.pool.push( bullet )
+                scene.add( bullet )
+            }
+            update( dt )
+            {
+                // return
+                for ( let bullet of this.pool )
+                {
+                    if ( !bullet ) continue
+                    if ( bullet.alive == false )
+                    {
+                        this.pool.splice( this.pool.indexOf( bullet ), 1 )
+                        continue
+                    }
+                    bullet.update( dt )
+                }
+            }
+            reload()
+            {
+                for ( let bullet of this.pool )
+                {
+                    bullet.kill()
+                }
+                this.pool = []
+            }
+        }
+        class Bullet extends THREE.Object3D
+        {
+            constructor( direct, pos )
+            {
+                super()
+                this.direct = direct
+                this.bullet = new THREE.Mesh( new THREE.SphereGeometry( 0.1, 8, 8 ), new THREE.MeshBasicMaterial( { color: 0xffffff } ) )
+                this.bullet.direct = direct
+                this.bullet.alive = true
+                this.bullet.position.set( pos.x, pos.y - 0.3, pos.z )
+                this.add( this.bullet )
+                this.alive = true
+                this.bulletSpeed = 50
+
+                var cubeGeometry = new THREE.BoxGeometry( 1, 1, 1 );
+                var wireMaterial = new THREE.MeshBasicMaterial( { color: 0x000 } );
+                this.MovingCube = new THREE.Mesh( cubeGeometry, wireMaterial );
+                this.MovingCube.position.set( pos.x, pos.y - 0.3, pos.z )
+                this.MovingCube.visible = false
+                this.add( this.MovingCube );
+            }
+            kill()
+            {
+                // return
+                if ( !this.alive ) return
+                this.alive = false
+                this.parent.remove( this )
+            }
+            update( dt )
+            {
+                let pos = this.direct.clone().multiplyScalar( dt * this.bulletSpeed )
+                this.position.add( pos )
+            }
+        }
+
+
+        //----------------Game
+        class Game
+        {
+
+            constructor()
+            {
+                // first define
+                this.objects = [];
+
+                this.raycaster;
+
+                this.moveForward = false;
+                this.moveBackward = false;
+                this.moveLeft = false;
+                this.moveRight = false;
+                this.canJump = false;
+
+                this.prevTime = performance.now();
+                this.velocity = new THREE.Vector3();
+                this.direction = new THREE.Vector3();
+                this.vertex = new THREE.Vector3();
+                this.color = new THREE.Color();
+                this.isOutBox = false
+                this.isGameStarting = false
+                this.score = 0
+                this.level = 1
+                this.remainEnemies = 0
+                this.pid = null
+                this.totalEnemies = 0
+                this.isGameOver = false
+                // ---------------------------------
+
+
+                this.init();
+                this.animate()
+            }
+            init()
+            {
+                this.isGameOver = false
+                this.level = 1
+                this.remainEnemies = GameDefine.LEVEL[ this.level ].total
+                this.totalEnemies = GameDefine.LEVEL[ this.level ].total
+
+                this.setupCamera()
+                this.player = new Player( this, this.listener )
+                this.EnemyMgr = new EnemyMgr( this, this.listener )
+                this.BulletMgr = new BulletMgr( this )
+                this.setupGraphics()
+                this.Plane = new Plane( this.scene )
+                this.updateScore()
+
+
+            }
+            addScore()
+            {
+                this.score++
+            }
+
+            endGame( isLose = true )
+            {
+                let popup = document.getElementById( "popup" )
+                let title = document.getElementById( "popup-level" )
+                let time = document.getElementById( "popup-time" )
+                let replay = document.getElementById( "btn-replay" )
+                time.innerHTML = `Your score : ${ this.score }`
+                popup.style.visibility = "visible"
+                title.innerHTML = `${ isLose ? "You Lose" : "You Win" }`
+                replay.style.visibility = "visible"
+                this.controls.unlock();
+                this.isGameOver = true
+                replay.addEventListener( 'click', () =>
+                {
+                    this.BulletMgr.reload()
+                    this.player.reload()
+                    this.EnemyMgr.reload()
+                    this.isGameStarting = false
+                    popup.style.visibility = "hidden"
+                    replay.style.visibility = "hidden"
+                    this.controls.getObject().position.x = 0
+                    this.controls.getObject().position.y = 0
+                    this.controls.getObject().position.z = 0
+                    this.startGame()
+                    this.controls.lock();
+                } );
+
+            }
+            updateScore()
+            {
+                if ( this.isGameOver ) return
+                document.getElementById( "level" ).innerHTML = `Level : ${ this.level }`
+                document.getElementById( "total-enemies" ).innerHTML = `Total enemies : ${ GameDefine.LEVEL[ this.level ].total }`
+                document.getElementById( "remain-enemies" ).innerHTML = `Enemies remaining : ${ this.remainEnemies }`
+                document.getElementById( "score" ).innerHTML = `Your score : ${ this.score }`
+                document.getElementById( "player-hp" ).innerHTML = `Your HP : ${ this.player.hp }`
+                let ammoText = this.player.ammo > 0 ? `Your Ammo : ${ this.player.ammo }` : `Your Ammo : Reloading`
+                document.getElementById( "player-ammo" ).innerHTML = ammoText
+            }
+            killEnemy()
+            {
+                this.remainEnemies--
+                if ( this.remainEnemies == 0 )
+                {
+                    this.level++
+                    if ( this.level > 3 )
+                    {
+                        this.isGameOver = true
+                    }
+                    else
+                    {
+                        this.showNextRound( () =>
+                        {
+                            this.totalEnemies = GameDefine.LEVEL[ this.level ].total
+                            this.remainEnemies = GameDefine.LEVEL[ this.level ].total
+                            this.spawnEnemies()
+                        } )
+                    }
+                }
+            }
+            showNextRound( cb = null )
+            {
+                let duration = 3
+                let popup = document.getElementById( "popup" )
+                let title = document.getElementById( "popup-level" )
+                let time = document.getElementById( "popup-time" )
+                // time.style.visibility = "visible"
+                popup.style.visibility = "visible"
+                title.innerHTML = `Level ${ this.level } is Comming`
+                time.innerHTML = duration
+                let itv = setInterval( () =>
+                {
+                    duration--;
+                    if ( duration < 0 )
+                    {
+                        clearInterval( itv )
+                        // time.style.visibility = "hidden"
+                        popup.style.visibility = "hidden"
+                        cb && cb()
+                        return
+                    }
+                    time.innerHTML = duration
+                }, 1000 )
+
+            }
+            startGame()
+            {
+                if ( this.isGameStarting ) return;
+                this.isGameOver = false
+
+                this.bgm = new THREE.Audio( this.listener );
+                this.bgm.setBuffer( Audios.bg.buffer );
+                this.bgm.setLoop( true );
+                this.bgm.play()
+
+                this.isGameStarting = true
+                this.level = 1;
+                this.score = 0;
+                this.showNextRound( () =>
+                {
+                    this.spawnEnemies()
+                } )
+            }
+            spawnEnemies()
+            {
+                this.pid && clearInterval( this.pid )
+                this.pid = setInterval( () =>
+                {
+                    this.totalEnemies--
+                    if ( this.totalEnemies < 0 )
+                    {
+                        clearInterval( this.pid )
+                        return
+                    }
+                    this.EnemyMgr.spawn( this.scene )
+                }, 1000 );
+            }
+            setupCamera()
+            {
+                this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+                this.camera.position.y = GameDefine.PLAYER_HEIGHT;
+
+                this.listener = new THREE.AudioListener();
+                this.camera.add( this.listener )
+            }
+            setupGraphics()
+            {
+
+
+                this.scene = new THREE.Scene();
+                this.scene.background = new THREE.Color( 0x707070 );
+                this.scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+                this.scene.updateMatrixWorld( true );
+                this.scene.traverse( function ( object )
+                {
+                    object.frustumCulled = false;
+                    if ( object.isMesh ) object.material.transparent = false;
+                } );
+
+                const light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+                light.position.set( 0.5, 1, 0.75 );
+                this.scene.add( light );
+
+                this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+                this.renderer.setPixelRatio( window.devicePixelRatio );
+                this.renderer.setSize( window.innerWidth, window.innerHeight );
+                this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+                this.renderer.toneMappingExposure = 1;
+                this.renderer.outputEncoding = THREE.sRGBEncoding;
+                document.body.appendChild( this.renderer.domElement );
+
+                this.controls = new PointerLockControls( this.camera, document.body );
+                this.scene.add( this.controls.getObject() )
+                this.controls.getObject().add( this.player )
+                this.player.position.y -= 0.3
+                this.player.position.z -= 0.5
+
+                const loader = new THREE.TextureLoader();
+                loader.load( 'imgs/bg.jpg', ( texture ) =>
+                {
+                    this.scene.background = texture;
+                } );
+
+                const blocker = document.getElementById( 'blocker' );
+                const instructions = document.getElementById( 'instructions' );
+                instructions.addEventListener( 'click', () =>
+                {
+                    this.startGame()
+                    this.controls.lock();
+                } );
+                this.controls.addEventListener( 'lock', () =>
+                {
+
+                    instructions.style.display = 'none';
+                    blocker.style.display = 'none';
+
+                } );
+                this.controls.addEventListener( 'unlock', () =>
+                {
+
+                    blocker.style.display = 'block';
+                    instructions.style.display = '';
+
+                } );
+
+                window.addEventListener( 'resize', this.onWindowResize.bind( this ) );
+                document.addEventListener( "keydown", this.onKeyDown.bind( this ), false );
+                document.addEventListener( 'keyup', this.onKeyUp.bind( this ) );
+                document.addEventListener( 'mousedown', this.onMouseDown.bind( this ) );
+            }
+            animate()
+            {
+                requestAnimationFrame( () => this.animate() );
+
+                const time = performance.now();
+
+                // if ( this.controls.isLocked )
+                if ( true )
+                {
+
+                    const delta = ( time - this.prevTime ) / 1000;
+
+                    this.BulletMgr && this.BulletMgr.update( delta )
+
+                    this.velocity.x -= this.velocity.x * 10.0 * delta;
+                    this.velocity.z -= this.velocity.z * 10.0 * delta;
+                    this.velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+
+                    this.direction.z = Number( this.moveForward ) - Number( this.moveBackward );
+                    this.direction.x = Number( this.moveRight ) - Number( this.moveLeft );
+                    this.direction.normalize();
+                    if ( this.moveForward || this.moveBackward ) this.velocity.z -= this.direction.z * GameDefine.PLAYER_SPEED * delta;
+                    if ( this.moveLeft || this.moveRight ) this.velocity.x -= this.direction.x * GameDefine.PLAYER_SPEED * delta;
+
+                    this.controls.moveRight( - this.velocity.x * delta );
+                    this.controls.moveForward( - this.velocity.z * delta );
+
+                    this.controls.getObject().position.y += ( this.velocity.y * delta ); // new behavior
+
+                    this.keepInsideBox( this.controls.getObject() )
+                    if ( this.controls.getObject().position.y < GameDefine.PLAYER_HEIGHT )
+                    {
+
+                        this.velocity.y = 0;
+                        this.controls.getObject().position.y = GameDefine.PLAYER_HEIGHT;
+
+                        this.canJump = true;
+                    }
+                    for ( let mixer of mixers )
+                    {
+                        mixer.update( delta );
+                    }
+                    this.checkCollision()
+                    this.EnemyMgr.update( delta )
+                }
+
+                this.prevTime = time;
+                this.render()
+
+            }
+            keepInsideBox( obj )
+            {
+                let d = this.Plane.MovingCube
+                let aPos = Utils.getRealPosition( obj )
+                let dPos = Utils.getRealPosition( d )
+
+                let r2 = dPos.x + d.geometry.parameters.width / 2;
+                let l2 = dPos.x - d.geometry.parameters.width / 2;
+                let f2 = dPos.z - d.geometry.parameters.depth / 2;
+                let B2 = dPos.z + d.geometry.parameters.depth / 2;
+                if ( aPos.x < l2 )
+                {
+                    this.controls.getObject().position.x = l2
+                }
+                if ( aPos.x > r2 )
+                {
+                    this.controls.getObject().position.x = r2
+                }
+                if ( aPos.z < f2 )
+                {
+                    this.controls.getObject().position.z = f2
+                }
+                if ( aPos.z > B2 )
+                {
+                    this.controls.getObject().position.z = B2
+                }
+            }
+            checkCollision()
+            {
+                for ( let bullet of this.BulletMgr.pool )
+                {
+                    for ( let enemy of this.EnemyMgr.pool )
+                    {
+                        if ( Utils.checkTouching( bullet.MovingCube, enemy.MovingCube, false ) )
+                        {
+                            // this.EnemyMgr.spawn( this.scene )
+                            this.EnemyMgr.hit( enemy, this.player.dmg )
+                            bullet.kill()
+                        }
+                    }
+                }
+                for ( let enemy of this.EnemyMgr.pool )
+                {
+                    if ( Utils.checkTouching( enemy.MovingCube, this.player.MovingCube, true ) )
+                    {
+                        enemy.stopMove( true )
+                        if ( !enemy.isAttack )
+                        {
+                            enemy.attack()
+                            this.player.reduceHP( enemy.dmg );
+                        }
+                    }
+                    else
+                    {
+                        enemy.stopMove( false )
+                    }
+                }
+            }
+            render()
+            {
+                this.updateScore()
+                this.renderer.render( this.scene, this.camera );
+            }
+
+            onWindowResize()
+            {
+
+                this.camera.aspect = window.innerWidth / window.innerHeight;
+                this.camera.updateProjectionMatrix();
+
+                this.renderer.setSize( window.innerWidth, window.innerHeight );
+            }
+            onKeyDown( event )
+            {
+                switch ( event.code )
+                {
+                    case 'ArrowUp':
+                    case 'KeyW':
+                        this.moveForward = true;
+                        break;
+
+                    case 'ArrowLeft':
+                    case 'KeyA':
+                        this.moveLeft = true;
+                        break;
+
+                    case 'ArrowDown':
+                    case 'KeyS':
+                        this.moveBackward = true;
+                        break;
+
+                    case 'ArrowRight':
+                    case 'KeyD':
+                        this.moveRight = true;
+                        break;
+
+                    case 'Space':
+                        if ( this.canJump === true ) this.velocity.y += 200;
+                        this.canJump = false;
+                        break;
+                }
+            }
+            onKeyUp( event )
+            {
+                switch ( event.code )
+                {
+
+                    case 'ArrowUp':
+                    case 'KeyW':
+                        this.moveForward = false;
+                        break;
+
+                    case 'ArrowLeft':
+                    case 'KeyA':
+                        this.moveLeft = false;
+                        break;
+
+                    case 'ArrowDown':
+                    case 'KeyS':
+                        this.moveBackward = false;
+                        break;
+
+                    case 'ArrowRight':
+                    case 'KeyD':
+                        this.moveRight = false;
+                        break;
+
+                }
+
+            }
+            onMouseDown()
+            {
+                if ( !this.isGameStarting ) return
+                if ( this.isGameOver ) return
+                if ( this.player.ammo <= 0 ) return
+                this.player.reduceAmmo()
+                let direction = this.controls.getDirection( new THREE.Vector3() )
+                this.BulletMgr && this.BulletMgr.spawn( this.scene, direction, this.controls.getObject().position, this.listener )
+            }
+        }
+    </script>
+    <!-- <script type="module" src="js/game.js"> -->
+</body>
+
+</html>
