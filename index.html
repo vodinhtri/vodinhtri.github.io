@@ -8,10 +8,13 @@
 </head>
 <body>
     <h1 id="abc"></h1>
+    <h1 id="abcd"></h1>
     <script>
-        const dateTime = new Date();
+        const dateTime = new Date("2022-02-21 11:18:59");
         let txt = document.getElementById("abc")
+        let txt2 = document.getElementById("abcd")
         txt.innerHTML = dateTime.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+        txt2.innerHTML = dateTime.toLocaleTimeString(undefined, { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
     </script>
 </body>
 </html>
