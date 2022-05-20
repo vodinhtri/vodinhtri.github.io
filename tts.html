@@ -7,13 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>text to speech</title>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=O2XbhR7W"></script>
+    <style>
+        #textInput{
+            display: block;
+            width: 90vw;
+            height: 90vh;
+            overflow-y: scroll;
+            overflow-x: visible;
+            text-align: left;
+            word-wrap: break-word;
+        word-break: break-all;
+        }
+    </style>
 </head>
 
 <body>
     <button onclick="play()">Play</button>
+    <textarea id="textInput" name="text" rows="14" cols="10" wrap="soft"> </textarea>
+    <!-- <input type="text" id="textInput"> -->
     <script>
         function play() {
-            responsiveVoice.speak("xin chào các bạn", "Vietnamese Male", {rate: 1});
+            let text = document.getElementById("textInput")
+            responsiveVoice.speak(text.value, "Vietnamese Male", {rate: 1});
         }
     </script>
 </body>
